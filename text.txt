@@ -1,0 +1,11 @@
+-----Navigation-----
+Home
+About
+Services
+Gallery
+Teachers
+Mission
+Contact
+
+Login Now
+
