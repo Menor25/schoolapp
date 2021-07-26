@@ -1,6 +1,4 @@
 <?php
-    
-    require "private/autoloads.php";
     include('includes/header.php');
     include('includes/sidenav.php');
 

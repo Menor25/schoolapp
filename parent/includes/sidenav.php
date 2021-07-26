@@ -20,6 +20,9 @@
                             <a href="#" class="nav-link"><i class="fa fa-users"></i><span>Student</span></a>
                             <ul class="nav sub-group-menu">
                                 <li class="nav-item">
+                                    <a href="your-kids.php" class="nav-link"><i class="fa fa-angle-right"></i>Your Kids</a>
+                                </li>
+                                <li class="nav-item">
                                     <a href="performance.php" class="nav-link"><i class="fa fa-angle-right"></i>Performance</a>
                                 </li>
                                 <li class="nav-item">

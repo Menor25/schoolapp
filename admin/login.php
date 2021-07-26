@@ -1,81 +1,103 @@
-<!doctype html>
-<html class="no-js" lang="">
+<?php
+    include('private/database.php');
+    include('private/functions.php');
+    
+    if(isset($_POST['login_btn'])){
+        $username = trim($_POST['username']);
+        $password = trim($_POST['password']);
+
+        adminLogin($username, $password);
+    }
+
+    $Error = "";
+?>
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Admin | Login</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Favicon -->
-    <!-- <link rel="shortcut icon" type="image/x-icon" href="img/favicon.png"> -->
-    <!-- Normalize CSS -->
-    <link rel="stylesheet" href="css/normalize.css">
-    <!-- Main CSS -->
-    <link rel="stylesheet" href="css/main.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My School Management App | Login</title>
+
+    <!---Favicon ---->
+    <!----- Fontawesome ----->
+    <link rel="stylesheet" href="./css/font-awesome.css">
+
+
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="css/bootstrap.min.css">
-    <!-- Fontawesome CSS -->
-    <link rel="stylesheet" href="css/all.min.css">
-    <link rel="stylesheet" href="css/font-awesome.css">
-    <!-- Flaticon CSS -->
-    <link rel="stylesheet" href="fonts/flaticon.css">
-    <!-- Animate CSS -->
-    <link rel="stylesheet" href="css/animate.min.css">
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="css/style.css">
-    <!-- Modernize js -->
-    <script src="js/modernizr-3.6.0.min.js"></script>
+
+    <!-----custom css -->
+    <link rel="stylesheet" href="../css/style.css">
+
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Roboto:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
 </head>
 
 <body>
-    <!-- Preloader Start Here -->
-    <div id="preloader"></div>
-    <!-- Preloader End Here -->
-    <!-- Login Page Start Here -->
-    <div class="login-page-wrap">
-        <div class="login-page-content">
-            <div class="login-box">
-                <form action="index.html" class="login-form">
-                    <div class="form-group">
-                        <label>Username</label>
-                        <input type="text" placeholder="Enter username" class="form-control">
-                        <i class="fa fa-envelope"></i>
+    <div class="login-bg">
+        <div class="login-content">
+            <div class="card-login">
+                <div class="titleText">
+                    <h4><span>L</span>ogin <span>H</span>ere</h4>
+                </div>
+                <form action="" method="POST">
+                    <div class="tab-content" style="margin-left: 50px;">
+                        <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                            <div class="form px-4 pt-5">
+                            <?php if(isset($_SESSION[$Error])): ?>
+                    <div class="alert alert-<?= $_SESSION['msg_type']; ?>">
+                        <?php
+                            echo $_SESSION[$Error];
+                            unset($_SESSION[$Error]);
+
+                        ?>
                     </div>
-                    <div class="form-group">
-                        <label>Password</label>
-                        <input type="password" placeholder="Enter password" class="form-control">
-                        <i class="fa fa-lock"></i>
-                    </div>
-                    <div class="form-group d-flex align-items-center justify-content-between">
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="remember-me">
-                            <label for="remember-me" class="form-check-label">Remember Me</label>
+                <?php endif; ?>
+                                <div class="inputBox">
+                                    <input type="text" name="username" id="stusername" class="username" placeholder="Username" required>
+                                    <i class="fa fa-check-circle"></i>
+                                    <i class="fa fa-exclamation-circle"></i>
+                                    <small>Error message</small>
+                                </div>
+
+                                <div class="inputBox">
+                                    <input type="password" name="password" id="stpassword" class="stpassword" placeholder="Password" required>
+                                    <i class="fa fa-check-circle"></i>
+                                    <i class="fa fa-exclamation-circle"></i>
+                                    <small>Error message</small>
+                                </div>
+                                <div class="form-group lead" style="font-weight: 600;">
+                                    <input type="radio" class="custom-radio" name="userType" value="student" onclick="window.location.href='../student/login.php'" required>&nbsp;Student |
+                                    <input type="radio" class="custom-radio" name="userType" value="parent" onclick="window.location.href='../parent/login.php'" required>&nbsp;Parent |
+                                    <input type="radio" class="custom-radio" name="userType" value="teacher" onclick="window.location.href='../teacher/login.php'" required>&nbsp;Teacher |
+                                    <input type="radio" class="custom-radio" name="userType" value="admin" checked required>&nbsp;Admin
+                                </div>
+
+                                <div class="d-flex">
+                                    <button class="submit" name="login_btn" onclick="checkLogin()">Login</button>
+                                </div>
+                            </div>
                         </div>
-                        <a href="#" class="forgot-btn">Forgot Password?</a>
-                    </div>
-                    <div class="form-group">
-                        <button type="submit" class="login-btn">Login</button>
+
                     </div>
                 </form>
             </div>
-            <div class="sign-up">Don't have an account ? <a href="#">Signup now!</a></div>
         </div>
     </div>
-    <!-- Login Page End Here -->
-    <!-- jquery-->
-    <script src="js/jquery-3.3.1.min.js"></script>
-    <!-- Plugins js -->
-    <script src="js/plugins.js"></script>
-    <!-- Popper js -->
-    <script src="js/popper.min.js"></script>
-    <!-- Bootstrap js -->
-    <script src="js/bootstrap.min.js"></script>
-    <!-- Scroll Up Js -->
-    <script src="js/jquery.scrollUp.min.js"></script>
-    <!-- Custom Js -->
-    <script src="js/main.js"></script>
 
+
+
+
+
+    <!-- Vendor JS Files -->
+    <script src="../asset/jquery/jquery.min.js"></script>
+
+    <!---- custom script--->
+    <script src="../asset/js/script.js"></script>
+    <script src="asset/js/slider.js"></script>
 </body>
 
 </html>

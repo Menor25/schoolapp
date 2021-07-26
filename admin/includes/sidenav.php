@@ -36,10 +36,6 @@
                                         Students</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="student-details.php" class="nav-link"><i
-                                            class="fa fa-angle-right"></i>Student Details</a>
-                                </li>
-                                <li class="nav-item">
                                     <a href="admit-form.php" class="nav-link"><i
                                             class="fa fa-angle-right"></i>Admission Form</a>
                                 </li>
@@ -84,15 +80,15 @@
                                     class="fa fa-users"></i><span>Staff</span></a>
                             <ul class="nav sub-group-menu">
                                 <li class="nav-item">
-                                    <a href="all-teacher.php" class="nav-link"><i class="fa fa-angle-right"></i>All
+                                    <a href="all-staff.php" class="nav-link"><i class="fa fa-angle-right"></i>All
                                         Staff</a>
                                 </li>
-                                <li class="nav-item">
-                                    <a href="teacher-details.php" class="nav-link"><i
+                                <!-- <li class="nav-item">
+                                    <a href="profile.php" class="nav-link"><i
                                             class="fa fa-angle-right"></i>Staff Details</a>
-                                </li>
+                                </li> -->
                                 <li class="nav-item">
-                                    <a href="add-teacher.php" class="nav-link"><i class="fa fa-angle-right"></i>Add
+                                    <a href="add-staff.php" class="nav-link"><i class="fa fa-angle-right"></i>Add
                                         Staff</a>
                                 </li>
                                 <li class="nav-item">
@@ -121,15 +117,15 @@
                             <a href="#" class="nav-link"><i class="fa fa-users"></i><span>Parents</span></a>
                             <ul class="nav sub-group-menu">
                                 <li class="nav-item">
-                                    <a href="all-parents.php" class="nav-link"><i class="fa fa-angle-right"></i>All
+                                    <a href="all-parent.php" class="nav-link"><i class="fa fa-angle-right"></i>All
                                         Parents</a>
                                 </li>
-                                <li class="nav-item">
+                                <!-- <li class="nav-item">
                                     <a href="parents-details.php" class="nav-link"><i
                                             class="fa fa-angle-right"></i>Parents Details</a>
-                                </li>
+                                </li> -->
                                 <li class="nav-item">
-                                    <a href="add-parents.php" class="nav-link"><i class="fa fa-angle-right"></i>Add
+                                    <a href="add-parent.php" class="nav-link"><i class="fa fa-angle-right"></i>Add
                                         Parent</a>
                                 </li>
                             </ul>

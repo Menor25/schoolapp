@@ -1,3 +1,20 @@
+<?php
+    require "private/autoloads.php";
+
+    $stmtimg = $connection->prepare('SELECT * FROM parent WHERE id = ?');
+    $stmtimg->bind_param('i', $_SESSION['parent']['id']);
+    $stmtimg->execute();
+    $result = $stmtimg->get_result();
+
+    while($rows = $result->fetch_assoc()){
+        $userImage = $rows['parent_photo'];
+        $username = $rows['username'];
+        $fname = $rows['fname'];
+        $maritalStatus = $rows['marital_status'];
+    }
+    $stmtimg->close();
+?>
+
 
 <!doctype html>
 <html class="no-js" lang="">
@@ -45,7 +62,7 @@
             <div class="nav-bar-header-one">
                 <div class="header-logo">
                     <a href="index.php">
-                        <img src="./images/img.jpg" alt="logo">
+                        <img src="<?= $userImage; ?>" alt="logo">
                     </a>
                 </div>
                  <div class="toggle-button sidebar-toggle">
@@ -84,11 +101,11 @@
                         <a class="navbar-nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
                             aria-expanded="false">
                             <div class="admin-title">
-                                <h5 class="item-title">Theo Menor</h5>
-                                <span>Admin</span>
+                                <h5 class="item-title"><?= $fname; ?></h5>
+                                <span>Parent</span>
                             </div>
                             <div class="admin-img">
-                                <img src="./images/img.jpg" alt="Admin">
+                                <img src="<?= $userImage; ?>" alt="Admin" style="height: 100%; width: 100%;">
                             </div>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right">
@@ -101,7 +118,7 @@
                                     <li><a href="#"><i class="fa fa-list"></i>Task</a></li>
                                     <li><a href="#"><i class="fa fa-comment"></i>Message</a></li>
                                     <li><a href="#"><i class="fa fa-cog"></i>Account Settings</a></li>
-                                    <li><a href="login.html"><i class="fa fa-power-off"></i>Log Out</a></li>
+                                    <li><a href="logout.php"><i class="fa fa-power-off"></i>Log Out</a></li>
                                 </ul>
                             </div>
                         </div>

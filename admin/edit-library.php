@@ -54,7 +54,7 @@
                         <li>
                             <a href="library.php">Home</a>
                         </li>
-                        <li>Add New Book</li>
+                        <li>Edit Book</li>
                     </ul>
                 </div>
                 <!-- Breadcubs Area End Here -->
@@ -74,7 +74,7 @@
 
                         <div class="heading-layout1">
                             <div class="item-title">
-                                <h3>Add New Book</h3>
+                                <h3>Edit Book</h3>
                             </div>
                         </div>
                         <form class="new-added-form" method="POST" action="#">

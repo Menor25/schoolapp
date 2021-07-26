@@ -1,5 +1,4 @@
 <?php
-    require "private/autoloads.php";
     include('includes/header.php');  
     include('includes/sidenav.php');
 
@@ -63,7 +62,7 @@
                                                     <td><?= $class["fees"]; ?></td>
                                                     <td>
                                                         <a href="edit-class.php?edit=<?= $class['id']; ?>" class="btn btn-info">Edit</a> | 
-                                                        <a href="all-class.php?delete=<?= $class['id']; ?>" class="btn btn-danger" onclick="alert('Are you sure you want to delete this class?')">Delete</a>
+                                                        <a href="all-class.php?delete=<?= $class['id']; ?>" class="btn btn-danger">Delete</a>
                                                     </td>
                                                 </tr>
                                     <?php

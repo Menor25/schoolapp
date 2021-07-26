@@ -1,5 +1,4 @@
 <?php
-require "private/autoloads.php";
 include('includes/header.php');
 include('includes/sidenav.php');
 
@@ -66,7 +65,7 @@ deleteLibrary($id)
                                 <td><?= $library["creating_date"]; ?></td>
                                 <td>
                                     <a href="edit-library.php?edit=<?= $library['id']; ?>" class="btn btn-info">Edit</a> |
-                                    <a href="library.php?delete=<?= $library['id']; ?>" class="delete btn btn-danger" onclick="deleteLibrary(<?= $library['id']; ?>)">Delete</a>
+                                    <a href="library.php?delete=<?= $library['id']; ?>" class="delete btn btn-danger">Delete</a>
                                 </td>
                             </tr>
                         <?php

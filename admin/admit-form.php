@@ -1,5 +1,4 @@
 <?php
-    require "private/autoloads.php";
     include('includes/header.php');
     include('includes/sidenav.php');
 
@@ -13,18 +12,22 @@
 
             admitForm(
                 $fname = trim($_POST['fname']),
-                $lname = trim($_POST['lname']),
                 $gender = trim($_POST['gender']),
                 $dob = trim($_POST['dob']),
                 $blood_group = trim($_POST['blood_group']),
                 $religion = trim($_POST['religion']),
+                $parent = trim($_POST['parent']),
+                $occupation = trim($_POST['occupation']),
+                $parent_phone = trim($_POST['parent_phone']),
                 $username = trim(htmlspecialchars($_POST['username'])),
                 $password = trim(htmlspecialchars($_POST['password'])),
                 $school = trim($_POST['school']),
                 $class = trim($_POST['class']),
+                $school_fees = trim($_POST['school_fees']),
                 $admission_Id = trim($_POST['admission_Id']),
+                $address = trim(htmlspecialchars($_POST['address'])),
                 $phone = trim(htmlspecialchars($_POST['phone'])),
-                $message = htmlspecialchars($_POST['message']),
+                $state = htmlspecialchars($_POST['state']),
                 $st_photo = $_FILES['st_photo'],
                 );
 
@@ -40,7 +43,7 @@
                     <h3>Students</h3>
                     <ul>
                         <li>
-                            <a href="index.html">Home</a>
+                            <a href="all-student.php">Home</a>
                         </li>
                         <li>Student Admission Form</li>
                     </ul>
@@ -65,15 +68,11 @@
                                 <h3>Add New Students</h3>
                             </div>
                         </div>
-                        <form class="new-added-form" method="POST" action="admit-form.php" enctype="multipart/form-data">
+                        <form class="new-added-form" method="POST" action="" enctype="multipart/form-data">
                             <div class="row">
                                 <div class="col-xl-3 col-lg-6 col-12 form-group">
-                                    <label>First Name *</label>
+                                    <label>Full Name *</label>
                                     <input type="text" name="fname" placeholder="" class="form-control" required>
-                                </div>
-                                <div class="col-xl-3 col-lg-6 col-12 form-group">
-                                    <label>Last Name *</label>
-                                    <input type="text" name="lname" placeholder="" class="form-control" required>
                                 </div>
                                 <div class="col-xl-3 col-lg-6 col-12 form-group">
                                     <label>Gender *</label>
@@ -116,6 +115,18 @@
                                     </select>
                                 </div>
                                 <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                    <label>Parent Name *</label>
+                                    <input type="text" name="parent" placeholder="" class="form-control" required>
+                                </div>
+                                <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                    <label>Parent Occupation *</label>
+                                    <input type="text" name="occupation" placeholder="" class="form-control" required>
+                                </div>
+                                <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                    <label>Parent Number *</label>
+                                    <input type="text" name="parent_phone" placeholder="" class="form-control" required>
+                                </div>
+                                <div class="col-xl-3 col-lg-6 col-12 form-group">
                                     <label>Username *</label>
                                     <input type="text" name="username" placeholder="" class="form-control" required>
                                 </div>
@@ -154,17 +165,41 @@
                                     </select>
                                 </div>
                                 <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                    <label>School Fees *</label>
+                                    <input type="text" name="school_fees" placeholder="" class="form-control" required>
+                                </div>
+                                <div class="col-xl-3 col-lg-6 col-12 form-group">
                                     <label>Admission ID *</label>
                                     <input type="text" name="admission_Id" placeholder="" class="form-control" required>
+                                </div>
+                                <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                    <label>Address *</label>
+                                    <input type="text" name="address" placeholder="" class="form-control" required>
                                 </div>
                                 <div class="col-xl-3 col-lg-6 col-12 form-group">
                                     <label>Phone *</label>
                                     <input type="text" name="phone" placeholder="" class="form-control" required>
                                 </div>
-                                <div class="col-lg-6 col-12 form-group">
-                                    <label>Short BIO *</label>
-                                    <textarea class="textarea form-control" name="message" id="form-message" cols="10"
-                                        rows="9" required></textarea>
+                                <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                    <label>State of Origin *</label>
+                                    <select class="select2" name="state" required>
+                                        <option value="">Please Select Section *</option>
+                                        <?php
+                                            $stmt2 = $connection->prepare('SELECT * FROM state');
+                                            $stmt2->execute();
+                                            $result = $stmt2->get_result();
+                                    
+                                            while($row = $result->fetch_assoc()){
+                                                $state_name = $row['state_name'];
+
+                                        ?>
+                                                <option value="<?= $state_name ?>"><?= $state_name ?></option>
+                                        <?php
+
+
+                                            }
+                                        ?>
+                                    </select>
                                 </div>
                                 <div class="col-lg-6 col-12 form-group mg-t-30">
                                     <label class="text-dark-medium">Upload Student Photo (150px X 150px) *</label>
@@ -172,7 +207,7 @@
                                 </div>
                                 <div class="col-12 form-group mg-t-8">
                                     <button class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark">Save</button>
-                                    <button type="reset" class="btn-fill-lg bg-blue-dark btn-hover-yellow">Reset</button>
+                                    <button type="reset" name="reset" class="btn-fill-lg bg-blue-dark btn-hover-yellow" onclick="window.location.href='admit-form.php'">Reset</button>
                                 </div>
                             </div>
                         </form>

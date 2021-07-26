@@ -134,7 +134,7 @@ function checkLogin() {
     //get the values from the inputs
     const stusernameValue = stusername.value;
     const stpasswordValue = stpassword.value;
-    const stpass = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
+    const stpass = /^[a-zA-Z]+[0-9]+$/;
 
     if(stusernameValue === '') {
         //show error message (add error class)
@@ -152,7 +152,7 @@ function checkLogin() {
         setSuccessFor(stpassword);
     } else {
         
-        setErrorFor(stpassword, 'Password must contain at least 8 char, 1 uppercase, 1 lowercase and number');
+        setErrorFor(stpassword, 'Password must contain words and number');
     };
 
 }
@@ -219,13 +219,15 @@ function setSuccessFor(input) {
   })(jQuery);
 
   /*==== Modal Script ======*/
-  document.getElementById('login').addEventListener('click', function() {
-      document.querySelector('.modal-bg').style.display = "flex";
-  });
+//   document.getElementById('login').addEventListener('click', function() {
+//       document.querySelector('.modal-bg').style.display = "flex";
+//   });
 
-  document.querySelector('.close').addEventListener('click', function() {
-    document.querySelector('.modal-bg').style.display = "none";
-});
+//   document.querySelector('.close').addEventListener('click', function() {
+//     document.querySelector('.modal-bg').style.display = "none";
+// });
+
+
 
   
 /*====== Back to top ======*/

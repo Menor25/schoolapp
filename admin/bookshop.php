@@ -1,5 +1,4 @@
 <?php
-require "private/autoloads.php";
 include('includes/header.php');
 include('includes/sidenav.php');
 
@@ -65,8 +64,8 @@ deleteBookshop($id)
                                 <td><?= $book["edition"]; ?></td>
                                 <td><?= $book["creating_date"]; ?></td>
                                 <td>
-                                    <a href="edit-library.php?edit=<?= $book['id']; ?>" class="btn btn-info">Edit</a> |
-                                    <a href="library.php?delete=<?= $book['id']; ?>" class="btn btn-danger" onclick="alert('Are you sure you want to delete this book?')">Delete</a>
+                                    <a href="edit-bookshop.php?edit=<?= $book['id']; ?>" class="btn btn-info">Edit</a> |
+                                    <a href="bookshop.php?delete=<?= $book['id']; ?>" class="btn btn-danger">Delete</a>
                                 </td>
                             </tr>
                         <?php

@@ -1758,63 +1758,46 @@ section.gallery {
   }
 
   /*===== Modal Login Style =====*/
-  .modal-bg {
+  .modal-bg, .login-bg {
       width: 100%;
       height: 100% !important;
-      background-color: rgba(0, 0, 0, 0.7);
+      background-color: var(--lightgrey);
       position: absolute;
       top: 0;
       display: flex;
       justify-content: center;
       align-items: center;
       z-index: 99999999999999999999999999 !important;
-      display: none;
       position: fixed;
   }
 
-  .modal-content {
-      width: 500px;
-      height: 300px;
+  .modal-content, .login-content {
+      width: 450px;
+      height: 450px;
       background-color: var(--white);
       border-radius: 5px;
       text-align: center;
-      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
       position: relative;
   }
 
-  .modal-content .card {
+  .modal-content .card, .login-content .card {
     width: 400px;
     border: none
 }
-  .modal-content  .nav-pills {
-    display: table !important;
-    width: 100%
-  }
-
-  .modal-content  .nav-pills .nav-link {
-    border-radius: 0px;
-    border-bottom: 1px solid #0d6efd40
+.card-header h4 {
+    margin-top: 60px;
 }
-.modal-content  .nav-item {
-    display: table-cell;
-    background: #0d6efd2e
-}
-
-.modal-content  .form {
+.modal-content  .form, .login-content  .form {
+    margin-left: -45px;
     padding: 10px;
-    height: 300px
-}
-.btr {
-    border-top-right-radius: 5px !important
+    height: 350px
 }
 
-.btl {
-    border-top-left-radius: 5px !important
-}
-
-
-
-  .modal-content p {
+.modal-content p, .login-content p {
     text-transform: uppercase;
     text-align: center;
     margin: 1rem;
@@ -1824,7 +1807,7 @@ section.gallery {
     font-weight: 400;
 }
 
-.modal-content .inputBox {
+.modal-content .inputBox, .login-content .inputBox {
     display: flex;
     flex-direction: column;
     position: relative;
@@ -1833,7 +1816,11 @@ section.gallery {
     padding-bottom: 20px;
 }
 
-.modal-content .inputBox label {
+/* .login-content .lead {
+    margin-top: 10px;
+} */
+
+.modal-content .inputBox label, .login-content .inputBox label {
     display: inline block !important;
     position: relative;
     padding: 5px;
@@ -1842,7 +1829,7 @@ section.gallery {
     margin-bottom: 2px;
 }
 
-.modal-content .inputBox input{
+.modal-content .inputBox input, .login-content .inputBox input{
     width: 100%;
     border: 1px solid #555;
     padding: 10px;
@@ -1855,18 +1842,18 @@ section.gallery {
     display: block;
 }
 
-.modal-content h2 {
+.modal-content h2, .login-content h2 {
     margin-bottom: 18px;
 }
 
-.modal-content .inputBox i {
+.modal-content .inputBox i, .login-content .inputBox i {
     position: absolute;
     top: 10px;
     right: 10px;
     visibility: hidden;
 }
 
-.modal-content .inputBox small {
+.modal-content .inputBox small, .login-content .inputBox small {
     position: absolute;
     bottom: 0;
     left: 0;
@@ -1874,28 +1861,36 @@ section.gallery {
 }
 
 .modal-content .inputBox.success input,
-.modal-content .inputBox.success #gender {
+.modal-content .inputBox.success #gender,
+.login-content .inputBox.success input,
+.login-content .inputBox.success #gender {
     border-color: #2ecc71;
 }
-.modal-content .inputBox.success i.fa-check-circle {
+.modal-content .inputBox.success i.fa-check-circle,
+.login-content .inputBox.success i.fa-check-circle {
     visibility: visible;
     color: #2ecc71;
 }
 .modal-content .inputBox.error input,
-.modal-content .inputBox.error #gender {
+.modal-content .inputBox.error #gender,
+.login-content .inputBox.error input,
+.login-content .inputBox.error #gender {
     border-color: #e74c3c;
 }
 
-.modal-content .inputBox.error i.fa-exclamation-circle {
+.modal-content .inputBox.error i.fa-exclamation-circle,
+.login-content .inputBox.error i.fa-exclamation-circle {
     visibility: visible;
     color: #e74c3c;
 }
-.modal-content .inputBox.error small {
+.modal-content .inputBox.error small,
+.login-content .inputBox.error small {
     color: #e74c3c;
     visibility: visible;
 }
 
-.modal-content .submit{
+.modal-content .submit,
+.login-content .submit{
     font-size: 1.5rem;
     color: #fff;
     background: var(--primary);
@@ -1911,10 +1906,19 @@ section.gallery {
     cursor: pointer;
     padding: 10px;
     outline: none;
-    margin-top: .8rem;
+    margin-top: 4rem;
 }
 
-.modal-content .submit:hover {
+.login-content .forgot-btn {
+    margin-top: 30px;
+    float: left;
+    font-size: 14px;
+    color: #ff0000;
+    font-weight: 500;
+  }
+
+.modal-content .submit:hover,
+.login-content .submit:hover {
     background: #ff0157;
 }
 

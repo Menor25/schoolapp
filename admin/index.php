@@ -1,6 +1,7 @@
-<?php 
-  include('includes/header.php');
-  include('includes/sidenav.php');
+<?php
+    include('includes/header.php');
+    include('includes/sidenav.php');
+
 
 
 ?>
@@ -9,7 +10,9 @@
             <div class="dashboard-content-one">
                 <!-- Breadcubs Area Start Here -->
                 <div class="breadcrumbs-area">
-                    <h3>Admin Dashboard</h3>
+                    <div style="display: flex;"><h3 id="greeting"></h3>&nbsp;&nbsp;<h3><?=  $_SESSION['fname']['id'] ?></h3></div>
+                    
+                    <h3>Dashboard</h3>
                     <ul>
                         <li>
                             <a href="index.php">Home</a>
@@ -30,9 +33,17 @@
                                     </div>
                                 </div>
                                 <div class="col-6">
+                                    <?php
+                                            $stmt = $connection->prepare('SELECT * FROM admin_new');
+                                            $stmt->execute();
+                                            $result = $stmt->get_result();
+                                        
+                                            $totalStudent = mysqli_num_rows($result);
+                                            $stmt->close();
+                                    ?>
                                     <div class="item-content">
                                         <div class="item-title">Students</div>
-                                        <div class="item-number"><span class="counter" data-num="150000">1,50,000</span></div>
+                                        <div class="item-number"><span class="counter" data-num="<?= $totalStudent ?>"><?= $totalStudent ?></span></div>
                                     </div>
                                 </div>
                             </div>
@@ -64,9 +75,18 @@
                                     </div>
                                 </div>
                                 <div class="col-6">
+
+                                    <?php
+                                         $parent = $connection->prepare('SELECT * FROM parent');
+                                         $parent->execute();
+                                         $result = $parent->get_result();
+                                     
+                                         $totalParent = mysqli_num_rows($result);
+                                         $parent->close();
+                                    ?>
                                     <div class="item-content">
                                         <div class="item-title">Parents</div>
-                                        <div class="item-number"><span class="counter" data-num="5690">5,690</span></div>
+                                        <div class="item-number"><span class="counter" data-num="<?= $totalParent ?>"><?= $totalParent ?></span></div>
                                     </div>
                                 </div>
                             </div>
@@ -434,6 +454,46 @@
                 </div> -->
                 <!-- Social Media End Here -->
 
+                <script>
+                    function clock(){
+                        var date = new Date();
+                        var hours = date.getHours();
+                        var minutes = date.getMinutes();
+                        var seconds = date.getSeconds();
+
+                        var midday;
+
+                        hours = updateTime(hours);
+                        minutes = updateTime(minutes);
+                        seconds = updateTime(seconds);
+
+                        //Good morning, good afternoon, good evening condition
+                        if(hours < 12){
+                            var greeting = "Good morning";
+                        }
+
+                        if(hours >= 12 && hours <= 16){
+                            var greeting = "Good afternoon";
+                        }
+
+                        if(hours >= 16 && hours <= 24){
+                            var greeting = "Good evening";
+                        }
+
+                        document.getElementById('greeting').innerHTML = greeting;
+                    }
+
+                    function updateTime(k){
+                        if(k < 10){
+                            return "0" + k
+                        }else{
+                            return k;
+                        }
+
+                    }
+                    //call clock function
+                    clock();
+                </script>
 <?php
     include('includes/footer.php');
 ?>
