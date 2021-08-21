@@ -61,9 +61,21 @@
                                     <label>School *</label>
                                     <select class="select2" name="schoolId" required>
                                         <option value="">Please Select</option>
-                                        <option value="Nursery">Nursery</option>
-                                        <option value="Primary">Primary</option>
-                                        <option value="Secondary">Secondary</option>
+                                            <?php
+                                                $stmt1 = $connection->prepare('SELECT * FROM school');
+                                                $stmt1->execute();
+                                                $result = $stmt1->get_result();
+                                        
+                                                while($row = $result->fetch_assoc()){
+                                                    $schoolName = $row['school_name'];
+
+                                            ?>
+                                                    <option value="<?= $schoolName ?>"><?= $schoolName ?></option>
+                                            <?php
+
+
+                                                }
+                                            ?>
                                     </select>
                                 </div>
                                 <div class="col-xl-3 col-lg-6 col-12 form-group">
@@ -72,7 +84,24 @@
                                 </div>
                                 <div class="col-xl-3 col-lg-6 col-12 form-group">
                                     <label>Form Teacher*</label>
-                                    <input type="text" placeholder="" name="form_teacher" class="form-control air-datepicker" data-position="bottom right" required>
+                                    <select class="select2" name="form_teacher" required>
+                                        <option value="">Please Select Class</option>
+                                        <?php
+                                            $stmt1 = $connection->prepare('SELECT * FROM staff WHERE staff_role = "teacher"');
+                                            $stmt1->execute();
+                                            $result = $stmt1->get_result();
+                                    
+                                            while($row = $result->fetch_assoc()){
+                                                $teacherName = $row['fname'];
+
+                                        ?>
+                                                <option value="<?= $teacherName ?>"><?= $teacherName ?></option>
+                                        <?php
+
+
+                                            }
+                                        ?>
+                                    </select>
                                 </div>
                                 <div class="col-xl-3 col-lg-6 col-12 form-group">
                                     <label>Fees *</label>

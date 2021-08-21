@@ -1,6 +1,4 @@
 <?php
-    
-    require "private/autoloads.php";
     include('includes/header.php');
     include('includes/sidenav.php');
 
@@ -95,7 +93,24 @@
                                     </div>
                                     <div class="col-xl-3 col-lg-6 col-12 form-group">
                                         <label>Form Teacher*</label>
-                                        <input type="text" placeholder="" name="form_teacher" value="<?= $form_teacher; ?>" class="form-control air-datepicker" data-position="bottom right" required>
+                                        <select class="select2" name="form_teacher" required>
+                                            <option value="<?= $form_teacher ?>"><?= $form_teacher ?></option>
+                                            <?php
+                                                $stmt1 = $connection->prepare('SELECT * FROM staff WHERE staff_role = "teacher"');
+                                                $stmt1->execute();
+                                                $result = $stmt1->get_result();
+                                        
+                                                while($row = $result->fetch_assoc()){
+                                                    $teacherName = $row['fname'];
+
+                                            ?>
+                                                    <option value="<?= $teacherName ?>"><?= $teacherName ?></option>
+                                            <?php
+
+
+                                                }
+                                            ?>
+                                        </select>
                                     </div>
                                     <div class="col-xl-3 col-lg-6 col-12 form-group">
                                         <label>Fees *</label>

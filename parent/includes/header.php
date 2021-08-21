@@ -10,7 +10,6 @@
         $userImage = $rows['parent_photo'];
         $username = $rows['username'];
         $fname = $rows['fname'];
-        $maritalStatus = $rows['marital_status'];
     }
     $stmtimg->close();
 ?>
@@ -48,6 +47,7 @@
     <link rel="stylesheet" href="css/jquery.dataTables.min.css">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/style.css">
+
     <!-- Modernize js -->
     <script src="js/modernizr-3.6.0.min.js"></script>
 </head>
@@ -110,14 +110,12 @@
                         </a>
                         <div class="dropdown-menu dropdown-menu-right">
                             <div class="item-header">
-                                <h6 class="item-title">Theo Menor</h6>
+                                <h6 class="item-title"><?= $fname; ?></h6>
                             </div>
                             <div class="item-content">
                                 <ul class="settings-list">
-                                    <li><a href="#"><i class="fa fa-user"></i>My Profile</a></li>
-                                    <li><a href="#"><i class="fa fa-list"></i>Task</a></li>
+                                    <li><a href="profile.php"><i class="fa fa-user"></i>My Profile</a></li>
                                     <li><a href="#"><i class="fa fa-comment"></i>Message</a></li>
-                                    <li><a href="#"><i class="fa fa-cog"></i>Account Settings</a></li>
                                     <li><a href="logout.php"><i class="fa fa-power-off"></i>Log Out</a></li>
                                 </ul>
                             </div>

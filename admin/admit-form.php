@@ -146,7 +146,7 @@
                                 <div class="col-xl-3 col-lg-6 col-12 form-group">
                                     <label>Class *</label>
                                     <select class="select2" name="class" required>
-                                        <option value="">Please Select Section *</option>
+                                        <option value="">Please Select Class *</option>
                                         <?php
                                             $stmt1 = $connection->prepare('SELECT * FROM class');
                                             $stmt1->execute();
@@ -183,7 +183,7 @@
                                 <div class="col-xl-3 col-lg-6 col-12 form-group">
                                     <label>State of Origin *</label>
                                     <select class="select2" name="state" required>
-                                        <option value="">Please Select Section *</option>
+                                        <option value="">Please Select State *</option>
                                         <?php
                                             $stmt2 = $connection->prepare('SELECT * FROM state');
                                             $stmt2->execute();

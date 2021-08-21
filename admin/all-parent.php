@@ -5,6 +5,7 @@
   $allParent = selectParent();
   deleteParent($id);
 
+  $sn = 1;
 ?>
             <div class="dashboard-content-one">
                 <!-- Breadcubs Area Start Here -->
@@ -41,6 +42,7 @@
                             <table class="table display data-table text-nowrap">
                                 <thead>
                                     <tr>
+                                        <th>S/N</th>
                                         <th>Photo</th>
                                         <th>Name</th>
                                         <th>Gender</th>
@@ -57,6 +59,7 @@
                                         foreach ($allParent as $parent) :
                                     ?>  
                                         <tr id="delete<?= $parent['id']; ?>">
+                                                <td><?= $sn; ?></td>
                                                 <td><a href="parent-profile.php?profile=<?= $parent['id']; ?>"><img src="<?= $parent["parent_photo"]; ?>" width="100" height="100" alt="<?= $staff["fname"]; ?>"></a></td>
                                                 <td><a href="parent-profile.php?profile=<?= $parent['id']; ?>"><?= $parent["fname"]; ?></a></td>
                                                 <td><a href="parent-profile.php?profile=<?= $parent['id']; ?>"><?= $parent["gender"]; ?></td>
@@ -71,6 +74,7 @@
                                                 </td>
                                         </tr>
                                     <?php
+                                        $sn++;
                                         endforeach;
                                     ?>
                                 </tbody>

@@ -33,8 +33,8 @@ include('includes/sidenav.php');
                         <h3 class="text-dark-medium font-medium"><?=  $_SESSION['fname']['id']; ?></h3>
                         <div class="header-elements">
                             <ul>
-                                <li><a href="#" title="print"><i class="fa fa-print"></i></a></li>
-                                <li><a href="#" title="download"><i class="fa fa-download"></i></a></li>
+                                <li><a href="print_profile.php" title="print"><i class="fa fa-print"></i></a></li>
+                                <li><a href="downloadpdf.php" title="download"><i class="fa fa-download"></i></a></li>
                             </ul>
                         </div>
                     </div>

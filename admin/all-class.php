@@ -4,7 +4,9 @@
 
     $allClass = selectClass();
 
-    deleteClass($id)
+    deleteClass($id);
+
+    $sn = 1;
 
 ?>
             <div class="dashboard-content-one">
@@ -13,7 +15,7 @@
                     <h3>Classes</h3>
                     <ul>
                         <li>
-                            <a href="index.php">Home</a>
+                            <a href="all-class.php">Home</a>
                         </li>
                         <li>All Classes</li>
                     </ul>
@@ -42,6 +44,7 @@
                             <table class="table display data-table text-nowrap">
                                 <thead>
                                     <tr>
+                                        <th>S/N</th>
                                         <th>Class Name</th>
                                         <th>School</th>
                                         <th>Subjects</th>
@@ -55,6 +58,7 @@
                                         foreach($allClass as $class):
                                     ?>
                                                 <tr>
+                                                    <td><?= $sn; ?></td>
                                                     <td><?= $class["class_name"]; ?></td>
                                                     <td><?= $class["schoolId"]; ?></td>
                                                     <td><?= $class["no_of_subjects"]; ?></td>
@@ -66,6 +70,7 @@
                                                     </td>
                                                 </tr>
                                     <?php
+                                        $sn++;
                                         endforeach;
                                     ?>
 

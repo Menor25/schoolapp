@@ -13,7 +13,7 @@
                             <a href="index.php" class="nav-link"><i class="fa fa-dashboard"></i><span>Dashboard</span></a>
                         </li>
                         <li class="nav-item">
-                            <a href="teacher-details.php" class="nav-link"><i class="fa fa-users"></i><span>My Profile</span></a>
+                            <a href="profile.php" class="nav-link"><i class="fa fa-users"></i><span>My Profile</span></a>
                         </li>
                         <li class="nav-item">
                             <a href="my-student.php" class="nav-link"><i class="fa fa-users"></i><span>My Student</span></a>

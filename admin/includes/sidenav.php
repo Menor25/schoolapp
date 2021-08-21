@@ -40,6 +40,10 @@
                                             class="fa fa-angle-right"></i>Admission Form</a>
                                 </li>
                                 <li class="nav-item">
+                                    <a href="assign-class.php" class="nav-link"><i
+                                            class="fa fa-angle-right"></i>Assign Class</a>
+                                </li>
+                                <li class="nav-item">
                                     <a href="student-promotion.php" class="nav-link"><i
                                             class="fa fa-angle-right"></i>Student Promotion</a>
                                 </li>
@@ -66,7 +70,7 @@
                                         Teacher</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="teacher-payment.php" class="nav-link"><i
+                                    <a href="assign-subject.php" class="nav-link"><i
                                             class="fa fa-angle-right"></i>Assign Subject</a>
                                 </li>
                                 <li class="nav-item">
@@ -160,8 +164,16 @@
                             <a href="#" class="nav-link"><i class="fa fa-money"></i><span>Account</span></a>
                             <ul class="nav sub-group-menu">
                                 <li class="nav-item">
-                                    <a href="all-fees.php" class="nav-link"><i class="fa fa-angle-right"></i>All Fees
-                                        Collection</a>
+                                    <a href="all-fees.php" class="nav-link"><i class="fa fa-angle-right"></i>All Paid
+                                        Fees</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="all_fees.php" class="nav-link"><i class="fa fa-angle-right"></i>All Fees
+                                        Added</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="add-fees.php" class="nav-link"><i class="fa fa-angle-right"></i>Add Fees
+                                        Amount</a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="all-expense.php" class="nav-link"><i

@@ -18,9 +18,6 @@
                         <li class="nav-item">
                             <a href="result-checker.php" class="nav-link"><i class="fa fa-users"></i><span>Check Result</span></a>
                         </li>
-                        <li class="nav-item">
-                            <a href="payment-status.php" class="nav-link"><i class="fa fa-users"></i><span>Payment Status</span></a>
-                        </li>
                         <li class="nav-item sidebar-nav-item">
                             <a href="#" class="nav-link"><i class="fa fa-book"></i><span>Task</span></a>
                             <ul class="nav sub-group-menu">

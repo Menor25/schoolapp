@@ -1,3 +1,18 @@
+<?php
+    require "private/autoloads.php";
+
+    $stmtimg = $connection->prepare('SELECT * FROM admin_new WHERE id = ?');
+    $stmtimg->bind_param('i', $_SESSION['student']['id']);
+    $stmtimg->execute();
+    $result = $stmtimg->get_result();
+
+    while($rows = $result->fetch_assoc()){
+        $userImage = $rows['st_photo'];
+        $username = $rows['username'];
+        $dob = $rows['dob'];
+    }
+    $stmtimg->close();
+?>
 
 <!doctype html>
 <html class="no-js" lang="">
@@ -45,7 +60,7 @@
             <div class="nav-bar-header-one">
                 <div class="header-logo">
                     <a href="index.php">
-                        <img src="./images/img.jpg" alt="logo">
+                        <img src="<?= $userImage; ?>" alt="logo">
                     </a>
                 </div>
                  <div class="toggle-button sidebar-toggle">
@@ -84,24 +99,22 @@
                         <a class="navbar-nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
                             aria-expanded="false">
                             <div class="admin-title">
-                                <h5 class="item-title">Theo Menor</h5>
+                                <h5 class="item-title"><?= $_SESSION['fname']['id'];?></h5>
                                 <span>Student</span>
                             </div>
                             <div class="admin-img">
-                                <img src="./images/img.jpg" alt="Admin">
+                                <img src="<?= $userImage; ?>" alt="Admin">
                             </div>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right">
                             <div class="item-header">
-                                <h6 class="item-title">Theo Menor</h6>
+                                <h6 class="item-title"><?= $_SESSION['fname']['id'];?></h6>
                             </div>
                             <div class="item-content">
                                 <ul class="settings-list">
-                                    <li><a href="index.php"><i class="fa fa-user"></i>My Profile</a></li>
-                                    <li><a href="#"><i class="fa fa-list"></i>Task</a></li>
+                                    <li><a href="profile.php"><i class="fa fa-user"></i>My Profile</a></li>
                                     <li><a href="messaging.php"><i class="fa fa-comment"></i>Message</a></li>
-                                    <li><a href="#"><i class="fa fa-cog"></i>Account Settings</a></li>
-                                    <li><a href="login.html"><i class="fa fa-power-off"></i>Log Out</a></li>
+                                    <li><a href="logout.php"><i class="fa fa-power-off"></i>Log Out</a></li>
                                 </ul>
                             </div>
                         </div>

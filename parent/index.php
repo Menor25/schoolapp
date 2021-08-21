@@ -7,7 +7,7 @@
             <div class="dashboard-content-one">
                 <!-- Breadcubs Area Start Here -->
                 <div class="breadcrumbs-area">
-                    <h3>Parent Dashboard</h3>
+                    <div style="display: flex;"><h3 id="greeting"></h3>&nbsp;&nbsp;<h3><?= $fname; ?></h3></div>
                     <ul>
                         <li>
                             <a href="index.php">Home</a>
@@ -29,7 +29,7 @@
                                 <div class="col-6">
                                     <div class="item-content">
                                         <div class="item-title">Due Fees</div>
-                                        <div class="item-number"><span>$</span><span class="counter" data-num="4503">4,503</span></div>
+                                        <div class="item-number"><span>N</span><span class="counter" data-num="4503">4,503</span></div>
                                     </div>
                                 </div>
                             </div>
@@ -80,7 +80,7 @@
                                 <div class="col-6">
                                     <div class="item-content">
                                         <div class="item-title">Expenses</div>
-                                        <div class="item-number"><span>$</span><span class="counter" data-num="193000">1,93,000</span></div>
+                                        <div class="item-number"><span>N</span><span class="counter" data-num="193000">1,93,000</span></div>
                                     </div>
                                 </div>
                             </div>
@@ -97,19 +97,7 @@
                                     <div class="item-title">
                                         <h3>My Kids</h3>
                                     </div>
-                                    <div class="dropdown">
-                                        <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown"
-                                            aria-expanded="false">...</a>
-
-                                        <div class="dropdown-menu dropdown-menu-right">
-                                            <!-- <a class="dropdown-item" href="#"><i
-                                                    class="fas fa-times text-orange-red"></i>Close</a> -->
-                                            <a class="dropdown-item" href="#"><i
-                                                    class="fa fa-cogs text-dark-pastel-green"></i>Edit</a>
-                                            <a class="dropdown-item" href="#"><i
-                                                    class="fa fa-redo text-orange-peel"></i>Refresh</a>
-                                        </div>
-                                    </div>
+                                    
                                 </div>
                                 <div class="kids-details-wrap">
                                     <div class="row">
@@ -207,40 +195,8 @@
                                     <div class="item-title">
                                         <h3>All Expenses</h3>
                                     </div>
-                                    <div class="dropdown">
-                                        <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown"
-                                            aria-expanded="false">...</a>
-
-                                        <div class="dropdown-menu dropdown-menu-right">
-                                            <!-- <a class="dropdown-item" href="#"><i
-                                                    class="fas fa-times text-orange-red"></i>Close</a> -->
-                                            <a class="dropdown-item" href="#"><i
-                                                    class="fa fa-cogs text-dark-pastel-green"></i>Edit</a>
-                                            <a class="dropdown-item" href="#"><i
-                                                    class="fas fa-redo text-orange-peel"></i>Refresh</a>
-                                        </div>
-                                    </div>
                                 </div>
                                 <div class="table-box-wrap">
-                                    <form class="search-form-box">
-                                        <div class="row gutters-8">
-                                            <div class="col-lg-4 col-md-3 form-group">
-                                                <input type="text" placeholder="Search by Exam ..."
-                                                    class="form-control">
-                                            </div>
-                                            <div class="col-lg-3 col-md-3 form-group">
-                                                <input type="text" placeholder="Search by Subject ..."
-                                                    class="form-control">
-                                            </div>
-                                            <div class="col-lg-3 col-md-3 form-group">
-                                                <input type="text" placeholder="dd/mm/yyyy" class="form-control">
-                                            </div>
-                                            <div class="col-lg-2 col-md-3 form-group">
-                                                <button type="submit"
-                                                    class="fw-btn-fill btn-gradient-yellow">SEARCH</button>
-                                            </div>
-                                        </div>
-                                    </form>
                                     <div class="table-responsive expenses-table-box">
                                         <table class="table data-table text-nowrap">
                                             <thead>
@@ -426,7 +382,47 @@
                         </div>
                     </div>
                 </div>
- 
+
+                <script>
+                    function clock(){
+                        var date = new Date();
+                        var hours = date.getHours();
+                        var minutes = date.getMinutes();
+                        var seconds = date.getSeconds();
+
+                        var midday;
+
+                        hours = updateTime(hours);
+                        minutes = updateTime(minutes);
+                        seconds = updateTime(seconds);
+
+                        //Good morning, good afternoon, good evening condition
+                        if(hours < 12){
+                            var greeting = "Good morning";
+                        }
+
+                        if(hours >= 12 && hours <= 16){
+                            var greeting = "Good afternoon";
+                        }
+
+                        if(hours >= 16 && hours <= 24){
+                            var greeting = "Good evening";
+                        }
+
+                        document.getElementById('greeting').innerHTML = greeting;
+                    }
+
+                    function updateTime(k){
+                        if(k < 10){
+                            return "0" + k
+                        }else{
+                            return k;
+                        }
+
+                    }
+                    //call clock function
+                    clock();
+                </script>
 <?php
     include('includes/footer.php');
 ?>

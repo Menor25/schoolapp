@@ -295,11 +295,10 @@ function classUpdate($class_name = NULL, $schoolId = NULL, $no_of_subjects = NUL
     global $connection;
     $Error = "";
 
-    // //Check if it is a valid class name
-    if (!preg_match("/^[A-Z A-Z]+ [0-9]+$/", $class_name)) {
+    if (!preg_match("/^[A-Z A-Z]+ [0-9A-Z]+$/", $class_name)) {
         $_SESSION[$Error] = "Class name must be in capital letter and contain a number";
         $_SESSION['msg_type'] = "danger";
-
+        header('Location: add-class.php');
         return ($_SESSION[$Error]);
     }
 
@@ -1588,5 +1587,401 @@ function deleteParent($id){
         }
         $stmt->close();
         header('Location: all-parent.php');
+    }
+}
+
+//select function for school fees payment
+function selectPayment(){
+    global $connection;
+    $data = array();
+
+    $stmt = $connection->prepare('SELECT * FROM tblpayment');
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows === 0) echo "No rows found";
+    while ($row = $result->fetch_assoc()) {
+        $data[] = $row;
+    }
+    $stmt->close();
+    return $data;
+}
+
+//Insert school fees function
+function addFees($school = NULL, $className = NULL, $feeAmount = NULL)
+{
+    $Error = "";
+    global $Error;
+    global $connection;
+
+
+
+
+    //Check if it is a valid school amount
+    if (!preg_match("/^[0-9]+$/", $feeAmount)) {
+        $_SESSION[$Error] = "School fees should contain numbers only";
+        $_SESSION['msg_type'] = "danger";
+        return ($_SESSION[$Error]);
+    }
+
+    $stmt1 = $connection->prepare('SELECT * FROM school_fees');
+    $stmt1->execute();
+    $result = $stmt1->get_result();
+
+    if ($result->num_rows > 0) {
+        $_SESSION[$Error] = "A class with the same school fees amount already exist";
+        $_SESSION['msg_type'] = "danger";
+        return ($_SESSION[$Error]);
+        header('Location: add-fees.php');
+    }
+
+    if ($Error == "") {
+
+            $stmt = $connection->prepare('INSERT INTO school_fees (school, className, feeAmount)
+            VALUES(?,?,?)');
+            $stmt->bind_param('sss', $school, $className, $feeAmount);
+            $stmt->execute();
+            $stmt->close;
+
+            $_SESSION[$Error] = "School fees added successfully!";
+            $_SESSION['msg_type'] = "success";
+            return ($_SESSION[$Error]);
+
+            header('Location: all-student.php');
+               
+    }
+}
+
+//select function for school fees
+function selectSchoolFees(){
+    global $connection;
+    $data = array();
+
+    $stmt = $connection->prepare('SELECT * FROM school_fees');
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows === 0) echo "No rows found";
+    while ($row = $result->fetch_assoc()) {
+        $data[] = $row;
+    }
+    $stmt->close();
+    return $data;
+}
+
+//function for edit fees
+function editFees($school = NULL, $className = NULL, $feeAmount = NULL, $id){
+    $Error = "";
+    global $Error;
+    global $connection;
+
+
+    //Check if it is a valid school amount
+    if (!preg_match("/^[0-9]+$/", $feeAmount)) {
+        $_SESSION[$Error] = "School fees should contain numbers only";
+        $_SESSION['msg_type'] = "danger";
+        return ($_SESSION[$Error]);
+    }
+
+    if ($Error == "") {
+
+        $stmt = $connection->prepare("UPDATE school_fees SET school = ?, className = ?, feeAmount = ? WHERE id = ?");
+        $stmt->bind_param('sssi', $school, $className, $feeAmount, $id);
+        $stmt->execute();
+
+        if ($stmt->affected_rows === 1) {
+
+            $_SESSION[$Error] = "School fees updated successfully!";
+            $_SESSION['msg_type'] = "success";
+
+        } else {
+            
+            $_SESSION[$Error] = "Unable to update school fees!";
+            $_SESSION['msg_type'] = "danger";
+        }
+        $stmt->close();
+    }
+        header('Location: all-fees.php');
+           
+
+}
+
+//Delete function for School fees
+function deleteFees($id){
+    global $Error;
+    global $connection;
+
+    if (isset($_GET['delete'])) {
+        $id = $_GET['delete'];
+
+        $stmt = $connection->prepare('DELETE FROM school_fees WHERE id = ?');
+        $stmt->bind_param('i', $id);
+        $stmt->execute();
+
+        if ($stmt->affected_rows === 0) {
+            $_SESSION[$Error] = "Unable to delete School fees record.";
+            $_SESSION['msg_type'] = "danger";
+
+            return ($_SESSION[$Error]);
+            header('Location: all_fees.php');
+        } else {
+            $_SESSION[$Error] = "School fees record deleted successfully!";
+            $_SESSION['msg_type'] = "success";
+            return ($_SESSION[$Error]);
+
+        }
+        $stmt->close();
+        header('Location: all_fees.php');
+    }
+}
+
+//Insert school fees function
+function assignSubject($school = NULL, $class = NULL, $subject = NULL, $teacher = NULL)
+{
+    $Error = "";
+    global $Error;
+    global $connection;
+
+    //Check if it is a valid subject
+    if (!preg_match("/^[A-Za-z A-Za-z]+$/", $subject)) {
+        $_SESSION[$Error] = "Subject must contain only words";
+        $_SESSION['msg_type'] = "danger";
+        return ($_SESSION[$Error]);
+    }
+
+    $stmt1 = $connection->prepare('SELECT * FROM assign_subject');
+    $stmt1->execute();
+    $result = $stmt1->get_result();
+
+    if ($result->num_rows > 0) {
+        $_SESSION[$Error] = "A teacher has already been assigned to this subject";
+        $_SESSION['msg_type'] = "danger";
+        return ($_SESSION[$Error]);
+        header('Location: assign-subject.php');
+    }
+
+    if ($Error == "") {
+
+            $stmt = $connection->prepare('INSERT INTO assign_subject (school, class, subject, teacher)
+            VALUES(?,?,?,?)');
+            $stmt->bind_param('ssss', $school, $class, $subject, $teacher);
+            $stmt->execute();
+            $stmt->close;
+
+            $_SESSION[$Error] = "Subject assigned to teacher successfully!";
+            $_SESSION['msg_type'] = "success";
+            return ($_SESSION[$Error]);
+
+            header('Location: all-teacher.php');
+               
+    }
+}
+
+//select function for teachers
+function selectTeachers(){
+    global $connection;
+    $data = array();
+
+    $stmt = $connection->prepare('SELECT * FROM assign_subject');
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows === 0) echo "No rows found";
+    while ($row = $result->fetch_assoc()) {
+        $data[] = $row;
+    }
+    $stmt->close();
+    return $data;
+}
+
+//function for edit assign subject teacher
+function editAssignSubject($school = NULL, $class= NULL, $subject = NULL, $teacher = NULL, $id){
+    $Error = "";
+    global $Error;
+    global $connection;
+
+
+    //Check if it is a valid subject
+    if (!preg_match("/^[A-Za-z A-Za-z]+$/", $subject)) {
+        $_SESSION[$Error] = "Subject must contain only words";
+        $_SESSION['msg_type'] = "danger";
+        return ($_SESSION[$Error]);
+    }
+
+    if ($Error == "") {
+
+        $stmt = $connection->prepare("UPDATE assign_subject SET school = ?, class = ?, subject = ?, teacher = ? WHERE id = ?");
+        $stmt->bind_param('ssssi', $school, $class, $subject, $teacher, $id);
+        $stmt->execute();
+
+        if ($stmt->affected_rows === 1) {
+
+            $_SESSION[$Error] = "Assigned subject updated successfully!";
+            $_SESSION['msg_type'] = "success";
+
+        } else {
+            
+            $_SESSION[$Error] = "Unable to update assigned subject!";
+            $_SESSION['msg_type'] = "danger";
+        }
+        $stmt->close();
+    }
+        header('Location: all-teachers.php');
+           
+
+}
+
+//Delete function for assigned subject teacher
+function deleteTeacher($id){
+    global $Error;
+    global $connection;
+
+    if (isset($_GET['delete'])) {
+        $id = $_GET['delete'];
+
+        $stmt = $connection->prepare('DELETE FROM assign_subject WHERE id = ?');
+        $stmt->bind_param('i', $id);
+        $stmt->execute();
+
+        if ($stmt->affected_rows === 0) {
+            $_SESSION[$Error] = "Unable to delete assigned subject record.";
+            $_SESSION['msg_type'] = "danger";
+
+            return ($_SESSION[$Error]);
+            header('Location: all_fees.php');
+        } else {
+            $_SESSION[$Error] = "Assigned subject record deleted successfully!";
+            $_SESSION['msg_type'] = "success";
+            return ($_SESSION[$Error]);
+
+        }
+        $stmt->close();
+        header('Location: all_teacher.php');
+    }
+}
+
+//Insert school fees function
+function assignStudent($studentName = NULL, $school = NULL, $class = NULL, $teacher = NULL)
+{
+    $Error = "";
+    global $Error;
+    global $connection;
+
+    //Check if it is a valid subject
+    if (!preg_match("/^[A-Za-z A-Za-z]+$/", $studentName)) {
+        $_SESSION[$Error] = "Subject must contain only words";
+        $_SESSION['msg_type'] = "danger";
+        return ($_SESSION[$Error]);
+    }
+
+    $stmt1 = $connection->prepare('SELECT * FROM assign_class');
+    $stmt1->execute();
+    $result = $stmt1->get_result();
+    $row = $result->fetch_assoc();
+
+    if ($row['studentName'] > 0) {
+        $_SESSION[$Error] = "This student has already been assigned to a class";
+        $_SESSION['msg_type'] = "danger";
+        return ($_SESSION[$Error]);
+        header('Location: assign-subject.php');
+    }
+
+    if ($Error == "") {
+
+            $stmt = $connection->prepare('INSERT INTO assign_class (studentName, school, class, teacher)
+            VALUES(?,?,?,?)');
+            $stmt->bind_param('ssss', $studentName, $school, $class, $teacher);
+            $stmt->execute();
+            $stmt->close();
+
+            $_SESSION[$Error] = "Student assigned to a class successfully!";
+            $_SESSION['msg_type'] = "success";
+            return ($_SESSION[$Error]);
+
+            header('Location: all-assign-student.php');
+               
+    }
+}
+
+//select function for assign class
+function selectAssignClass(){
+    global $connection;
+    $data = array();
+
+    $stmt = $connection->prepare('SELECT * FROM assign_class');
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows === 0) echo "No rows found";
+    while ($row = $result->fetch_assoc()) {
+        $data[] = $row;
+    }
+    $stmt->close();
+    return $data;
+}
+
+//function for edit fees
+function editAssignClass($studentName = NULL, $school = NULL, $class= NULL, $teacher = NULL, $id){
+    $Error = "";
+    global $Error;
+    global $connection;
+
+
+    //Check if it is a valid subject
+    if (!preg_match("/^[A-Za-z A-Za-z]+$/", $studentName)) {
+        $_SESSION[$Error] = "Subject must contain only words";
+        $_SESSION['msg_type'] = "danger";
+        return ($_SESSION[$Error]);
+    }
+
+    if ($Error == "") {
+
+        $stmt = $connection->prepare("UPDATE assign_class SET studentName = ?, school = ?, class = ?, teacher = ? WHERE id = ?");
+        $stmt->bind_param('ssssi', $studentName, $school, $class, $teacher, $id);
+        $stmt->execute();
+
+        if ($stmt->affected_rows === 1) {
+
+            $_SESSION[$Error] = "Assigned class updated successfully!";
+            $_SESSION['msg_type'] = "success";
+
+        } else {
+            
+            $_SESSION[$Error] = "Unable to update assigned class!";
+            $_SESSION['msg_type'] = "danger";
+        }
+        $stmt->close();
+    }
+        header('Location: all-assign-student.php');
+           
+
+}
+
+//Delete function for assigned subject teacher
+function deleteAssignClass($id){
+    global $Error;
+    global $connection;
+
+    if (isset($_GET['delete'])) {
+        $id = $_GET['delete'];
+
+        $stmt = $connection->prepare('DELETE FROM assign_class WHERE id = ?');
+        $stmt->bind_param('i', $id);
+        $stmt->execute();
+
+        if ($stmt->affected_rows === 0) {
+            $_SESSION[$Error] = "Unable to delete assigned student class record.";
+            $_SESSION['msg_type'] = "danger";
+
+            return ($_SESSION[$Error]);
+            header('Location: all_fees.php');
+        } else {
+            $_SESSION[$Error] = "Assigned student class record deleted successfully!";
+            $_SESSION['msg_type'] = "success";
+            return ($_SESSION[$Error]);
+
+        }
+        $stmt->close();
+        header('Location: all_assign-student.php');
     }
 }

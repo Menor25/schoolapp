@@ -1,5 +1,5 @@
 <?php
-    $connection = new mysqli("localhost", "root", "", "smsdb");
+    $connection = new mysqli("localhost", "root", "system25$", "smsdb");
     if($connection->connect_error){
         exit('Error connecting to database');
     }

@@ -1,9 +1,12 @@
 <?php
     include('includes/header.php');  
     include('includes/sidenav.php');
+    $Error = "";
 
     $allKids = selectKid();
+    // $students = selectParentKid();
 
+    $sn = 1;
 ?>
             <div class="dashboard-content-one">
                 <!-- Breadcubs Area Start Here -->
@@ -40,6 +43,7 @@
                             <table class="table display data-table text-nowrap">
                                 <thead>
                                     <tr>
+                                        <th>S/N</th>
                                         <th>Photo</th>
                                         <th>Full Name</th>
                                         <th>Class</th>
@@ -49,16 +53,18 @@
                                 </thead>
                                 <tbody>
                                     <?php
-                                        foreach($allKid as $kid):
+                                        foreach($allKids as $kid):
                                     ?>
                                                 <tr>
-                                                    <td><?= $kid["st_photo"]; ?></td>
-                                                    <td><?= $kid["fname"]; ?></td>
-                                                    <td><?= $kid["class"]; ?></td>
-                                                    <td><?= $kid["section"]; ?></td>
+                                                    <td><?= $sn; ?></td>
+                                                    <td><a href="student-details.php?profile=<?= $kid['id']; ?>"><img src="<?= $kid["st_photo"]; ?>" alt="<?= $kid["fname"];?>" width="60" height="50"></a></td>
+                                                    <td><a href="student-details.php?profile=<?= $kid['id']; ?>"><?= $kid["fname"]; ?></a></td>
+                                                    <td><a href="student-details.php?profile=<?= $kid['id']; ?>"><?= $kid["class"]; ?></a></td>
+                                                    <td><a href="student-details.php?profile=<?= $kid['id']; ?>"><?= $kid["school"]; ?></a></td>
                                                     <td>Samson</td>
                                                 </tr>
                                     <?php
+                                        $sn++;
                                         endforeach;
                                     ?>
 

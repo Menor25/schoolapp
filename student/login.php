@@ -1,3 +1,16 @@
+<?php
+    include('private/database.php');
+    include('private/functions.php');
+    
+    if(isset($_POST['login_btn'])){
+        $username = trim($_POST['username']);
+        $password = trim($_POST['password']);
+
+        studentLogin($username, $password);
+    }
+
+    $Error = "";
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,7 +25,7 @@
 
 
     <!-- Bootstrap CSS -->
-    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
 
     <!-----custom css -->
     <link rel="stylesheet" href="../css/style.css">
@@ -26,44 +39,54 @@
 <body>
     <div class="login-bg">
         <div class="login-content">
-            <div class="card">
-                <div class="card-header titleText">
+        <div class="card-login">
+                <div class="titleText">
                     <h4><span>L</span>ogin <span>H</span>ere</h4>
                 </div>
-                <div class="tab-content" id="pills-tabContent" style="margin-top: 20px; margin-left: 50px;">
-                    <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
-                        <div class="form px-4 pt-5">
-                            <div class="inputBox form-control">
-                                <!----<label for="">Username :</label>--->
-                                <input type="text" name="stusername" id="stusername" class="username" placeholder="Username" required>
-                                <i class="fa fa-check-circle"></i>
-                                <i class="fa fa-exclamation-circle"></i>
-                                <small>Error message</small>
-                            </div>
 
-                            <div class="inputBox form-control">
-                                <!---<label for="">Password :</label>--->
-                                <input type="password" name="stpassword" id="stpassword" class="stpassword" placeholder="Password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
-                                <i class="fa fa-check-circle"></i>
-                                <i class="fa fa-exclamation-circle"></i>
-                                <small>Error message</small>
-                            </div>
-                            <div class="form-group lead" style="font-weight: 600;">
-                                <!-- <label for="userType">I am a :</label> -->
-                                <input type="radio" class="custom-radio" name="userType" value="student" checked required>&nbsp;Student |
-                                <input type="radio" class="custom-radio" name="userType" value="parent" onclick="window.location.href='../parent/login.php'" required>&nbsp;Parent |
-                                <input type="radio" class="custom-radio" name="userType" value="teacher" onclick="window.location.href='../teacher/login.php'" required>&nbsp;Teacher |
-                                <input type="radio" class="custom-radio" name="userType" value="admin" onclick="window.location.href='../admin/login.php'" required>&nbsp;Admin
-                            </div>
+                <form action="" method="POST">
+                    <div class="tab-content" style="margin-left: 50px;">
+                        <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                            <div class="form px-4 pt-5">
+                            <?php if(isset($_SESSION[$Error])): ?>
+                    <div class="alert alert-<?= $_SESSION['msg_type']; ?>">
+                        <?php
+                            echo $_SESSION[$Error];
+                            unset($_SESSION[$Error]);
 
-                            <div class="d-flex">
-                                <button class="submit" onclick="checkLogin()">Submit</button>
-                            </div>
-                            <a href="#" class="forgot-btn">Forgot Password?</a>
-                        </div>
+                        ?>
                     </div>
+                <?php endif; ?>
+                                <div class="inputBox">
+                                    <input type="text" name="username" id="stusername" class="username" placeholder="Username" required>
+                                    <i class="fa fa-check-circle"></i>
+                                    <i class="fa fa-exclamation-circle"></i>
+                                    <small>Error message</small>
+                                </div>
 
-                </div>
+                                <div class="inputBox">
+                                    <input type="password" name="password" id="stpassword" class="stpassword" placeholder="Password" required>
+                                    <i class="fa fa-check-circle"></i>
+                                    <i class="fa fa-exclamation-circle"></i>
+                                    <small>Error message</small>
+                                </div>
+                                <div class="form-group lead" style="font-weight: 600;">
+                                    <!-- <label for="userType">I am a :</label> -->
+                                    <input type="radio" class="custom-radio" name="userType" value="student" checked required>&nbsp;Student |
+                                    <input type="radio" class="custom-radio" name="userType" value="parent" onclick="window.location.href='../parent/login.php'" required>&nbsp;Parent |
+                                    <input type="radio" class="custom-radio" name="userType" value="teacher" onclick="window.location.href='../teacher/login.php'" required>&nbsp;Teacher |
+                                    <input type="radio" class="custom-radio" name="userType" value="admin" onclick="window.location.href='../admin/login.php'" required>&nbsp;Admin
+                                </div>
+
+                                <div class="d-flex">
+                                    <button class="submit" name="login_btn" onclick="checkLogin()">Login</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+
             </div>
         </div>
     </div>
@@ -73,7 +96,7 @@
 
 
     <!-- Vendor JS Files -->
-    <script src="../asset/jquery/jquery.min.js"></script>
+    <script src="asset/jquery/jquery.min.js"></script>
 
     <!---- custom script--->
     <script src="../asset/js/script.js"></script>

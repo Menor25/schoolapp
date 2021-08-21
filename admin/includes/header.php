@@ -117,7 +117,7 @@
                         </a>
                         <div class="dropdown-menu dropdown-menu-right">
                             <div class="item-header">
-                                <h6 class="item-title">Theo Menor</h6>
+                                <h6 class="item-title"><?=  $_SESSION['fname']['id']; ?></h6>
                             </div>
                             <div class="item-content">
                                 <ul class="settings-list">

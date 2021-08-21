@@ -1,5 +1,5 @@
 <?php
-require "private/autoloads.php";
+// require "private/autoloads.php";
 include('includes/functions.php');
 include('includes/config.php');
 

@@ -2,12 +2,20 @@
   include('includes/header.php');
   include('includes/sidenav.php');
 
+  $stmt = $connection->prepare('SELECT * FROM assign_class WHERE teacher = ?');
+  $stmt->bind_param('s', $_SESSION['fname']['id']);
+  $stmt->execute();
+  $result = $stmt->get_result();
+  $totalStudent = mysqli_num_rows($result);
+  $stmt->close();
+ 
 
 ?>
             <div class="dashboard-content-one">
                 <!-- Breadcubs Area Start Here -->
                 <div class="breadcrumbs-area">
-                    <h3>Teacher Dashboard</h3>
+                    <div style="display: flex;"><h3 id="greeting"></h3>&nbsp;&nbsp;<h3><?=  $_SESSION['fname']['id'] ?></h3></div>
+                    <h3>Dashboard</h3>
                     <ul>
                         <li>
                             <a href="index.php">Home</a>
@@ -26,7 +34,7 @@
                                         <i class="fa fa-users text-magenta"></i>
                                     </div>
                                     <div class="item-content">
-                                        <div class="item-number"><span class="counter" data-num="35000">35,000</span></div>
+                                        <div class="item-number"><span class="counter" data-num="<?= $totalStudent; ?>"><?= $totalStudent; ?></span></div>
                                         <div class="item-title">Total Students</div>
                                     </div>
                                 </div>
@@ -582,6 +590,46 @@
                 </div>
                 <!-- Student Table Area End Here -->
  
+                <script>
+                    function clock(){
+                        var date = new Date();
+                        var hours = date.getHours();
+                        var minutes = date.getMinutes();
+                        var seconds = date.getSeconds();
+
+                        var midday;
+
+                        hours = updateTime(hours);
+                        minutes = updateTime(minutes);
+                        seconds = updateTime(seconds);
+
+                        //Good morning, good afternoon, good evening condition
+                        if(hours < 12){
+                            var greeting = "Good morning";
+                        }
+
+                        if(hours >= 12 && hours <= 16){
+                            var greeting = "Good afternoon";
+                        }
+
+                        if(hours >= 16 && hours <= 24){
+                            var greeting = "Good evening";
+                        }
+
+                        document.getElementById('greeting').innerHTML = greeting;
+                    }
+
+                    function updateTime(k){
+                        if(k < 10){
+                            return "0" + k
+                        }else{
+                            return k;
+                        }
+
+                    }
+                    //call clock function
+                    clock();
+                </script>
 <?php
     include('includes/footer.php');
 ?>
