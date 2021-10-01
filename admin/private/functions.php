@@ -2,9 +2,17 @@
 session_start();
 require "private/database.php";
 
-//Insert Admission form
+//Insert Admission form fo for student
 function admitForm($fname = NULL, $gender = NULL, $dob = NULL, $blood_group = NULL, $religion = NULL, $parent = NULL, $occupation = NULL, $parent_phone = NULL, $username = NUll, $password = NULL, $school = NULL, $class = NULL, $school_fees = NULL, $admission_Id = NULL, $address = NULL, $phone = NULL, $state = NULL, $st_photo = NULL)
 {
+    //Get an array of words coming from fname
+    $wordArray = explode(" ", $fname);
+    $wordArray1 = explode(" ", $parent);
+
+    //get the word count
+    $wordCount = sizeof($wordArray);
+    $wordCount1 = sizeof($wordArray1);
+
     $Error = "";
     global $Error;
     global $connection;
@@ -39,12 +47,87 @@ function admitForm($fname = NULL, $gender = NULL, $dob = NULL, $blood_group = NU
         return ($_SESSION[$Error]);
     }
 
+    //Check if it is a valid student name and is not empty
+    if (isset($_POST['fname']) && empty(trim($_POST['fname'])))
+        {
+            $_SESSION[$Error] = "Name field cannot be empty.";
+            $_SESSION['msg_type'] = "danger";
+            return ($_SESSION[$Error]);
+            header('Location: admit-form.php');
+        }elseif (!preg_match("/^[A-Za-z]+[ A-Za-z]+$/", $fname))
+        {
+            $_SESSION[$Error] = "Student name cannot contain numbers or special characters";
+            $_SESSION['msg_type'] = "danger";
+            return ($_SESSION[$Error]);
+            header('Location: admit-form.php');
+        }
+        elseif ($wordCount < 2)
+        {
+            $_SESSION[$Error] = "Please enter the student's full name, not a single name";
+            $_SESSION['msg_type'] = "danger";
+            return ($_SESSION[$Error]);
+            header('Location: admit-form.php');
+        }
+        elseif ($wordCount > 4)
+        {
+            $_SESSION[$Error] = "Student name cannot be more than four words";
+            $_SESSION['msg_type'] = "danger";
+            return ($_SESSION[$Error]);
+            header('Location: admit-form.php');
+        }
+
+        //Check if it is a valid parent name and is not empty
+        if (isset($_POST['fname']) && empty(trim($_POST['parent'])))
+        {
+            $_SESSION[$Error] = "Name field cannot be empty.";
+            $_SESSION['msg_type'] = "danger";
+            return ($_SESSION[$Error]);
+            header('Location: admit-form.php');
+        }elseif (!preg_match("/^[A-Za-z]+[ A-Za-z]+$/", $parent))
+        {
+            $_SESSION[$Error] = "Parent name cannot contain numbers or special characters";
+            $_SESSION['msg_type'] = "danger";
+            return ($_SESSION[$Error]);
+            header('Location: admit-form.php');
+        }
+        elseif ($wordCount1 < 2)
+        {
+            $_SESSION[$Error] = "Please enter the parent's full name, not a single name";
+            $_SESSION['msg_type'] = "danger";
+            return ($_SESSION[$Error]);
+            header('Location: admit-form.php');
+        }
+        elseif ($wordCount1 > 4)
+        {
+            $_SESSION[$Error] = "Parent name cannot be more than four words";
+            $_SESSION['msg_type'] = "danger";
+            return ($_SESSION[$Error]);
+            header('Location: admit-form.php');
+        }
+
+    //Check if it is a valid parent name
+    if (!preg_match("/^[A-Za-z]+$/", $occupation)) {
+        $_SESSION[$Error] = "Parent occupation should not contain numbers.";
+        $_SESSION['msg_type'] = "danger";
+        return ($_SESSION[$Error]);
+        header('Location: admit-form.php');
+    }
+
     //Check if it is a valid username
     if (!preg_match("/^[a-zA-Z]+[0-9]+$/", $username)) {
         $_SESSION[$Error] = "Please enter a valid username.";
         $_SESSION['msg_type'] = "danger";
         return ($_SESSION[$Error]);
+        header('Location: admit-form.php');
     }
+
+    //Check if it is a valid username
+    if (!preg_match("/^[A-Z]+[0-9]+$/", $admission_Id)) {
+        $_SESSION[$Error] = "Admission ID must be in capital letter and contain number";
+        $_SESSION['msg_type'] = "danger";
+        return ($_SESSION[$Error]);
+        header('Location: admit-form.php');
+        }
 
     //Check if it is a valid password
     if (!preg_match("/^[a-zA-Z]+[0-9]+$/", $password)) {
@@ -73,7 +156,7 @@ function admitForm($fname = NULL, $gender = NULL, $dob = NULL, $blood_group = NU
             VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)');
         $stmt->bind_param('ssssssssssssssssss', $fname, $gender, $dob, $blood_group, $religion, $parent, $occupation, $parent_phone, $username, $password, $school, $class, $school_fees, $admission_Id, $address, $phone, $state, $st_photo);
         $stmt->execute();
-        $stmt->close;
+        $stmt->close();
 
         $_SESSION[$Error] = "New student added successfully!";
         $_SESSION['msg_type'] = "success";
@@ -105,34 +188,78 @@ function editStudent($fname = NULL, $gender = NULL, $dob = NULL, $blood_group = 
     $Error = "";
     global $connection;
 
-    $target_dir = "../images/$fname";
-    $st_photo = $target_dir . basename($_FILES["st_photo"]["name"]);
-    $imageFileType = strtolower(pathinfo($st_photo, PATHINFO_EXTENSION));
+    //Get an array of words coming from fname
+    $wordArray = explode(" ", $fname);
+    $wordArray1 = explode(" ", $parent);
 
-    // Check if image file is an actual image or fake image
-    $check = getimagesize($_FILES["st_photo"]["tmp_name"]);
-    if ($check == false) {
-        $_SESSION[$Error] = "File is not an image.";
+    //get the word count
+    $wordCount = sizeof($wordArray);
+    $wordCount1 = sizeof($wordArray1);
+
+    //Check if it is a valid student name and is not empty
+    if (isset($_POST['fname']) && empty(trim($_POST['fname'])))
+        {
+            $_SESSION[$Error] = "Name field cannot be empty.";
+            $_SESSION['msg_type'] = "danger";
+            return ($_SESSION[$Error]);
+            header('Location: admit-form.php');
+        }elseif (!preg_match("/^[A-Za-z]+[ A-Za-z]+$/", $fname))
+        {
+            $_SESSION[$Error] = "Student name cannot contain numbers or special characters";
+            $_SESSION['msg_type'] = "danger";
+            return ($_SESSION[$Error]);
+            header('Location: admit-form.php');
+        }
+        elseif ($wordCount < 2)
+        {
+            $_SESSION[$Error] = "Please enter the student's full name, not a single name";
+            $_SESSION['msg_type'] = "danger";
+            return ($_SESSION[$Error]);
+            header('Location: admit-form.php');
+        }
+        elseif ($wordCount > 4)
+        {
+            $_SESSION[$Error] = "Student name cannot be more than four words";
+            $_SESSION['msg_type'] = "danger";
+            return ($_SESSION[$Error]);
+            header('Location: admit-form.php');
+        }
+
+        //Check if it is a valid parent name and is not empty
+        if (isset($_POST['fname']) && empty(trim($_POST['parent'])))
+        {
+            $_SESSION[$Error] = "Name field cannot be empty.";
+            $_SESSION['msg_type'] = "danger";
+            return ($_SESSION[$Error]);
+            header('Location: admit-form.php');
+        }elseif (!preg_match("/^[A-Za-z]+[ A-Za-z]+$/", $parent))
+        {
+            $_SESSION[$Error] = "Parent name cannot contain numbers or special characters";
+            $_SESSION['msg_type'] = "danger";
+            return ($_SESSION[$Error]);
+            header('Location: admit-form.php');
+        }
+        elseif ($wordCount1 < 2)
+        {
+            $_SESSION[$Error] = "Please enter the parent's full name, not a single name";
+            $_SESSION['msg_type'] = "danger";
+            return ($_SESSION[$Error]);
+            header('Location: admit-form.php');
+        }
+        elseif ($wordCount1 > 4)
+        {
+            $_SESSION[$Error] = "Parent name cannot be more than four words";
+            $_SESSION['msg_type'] = "danger";
+            return ($_SESSION[$Error]);
+            header('Location: admit-form.php');
+        }
+
+    //Check if it is a valid parent name
+    if (!preg_match("/^[A-Za-z]+$/", $occupation)) {
+        $_SESSION[$Error] = "Parent occupation should not contain numbers.";
         $_SESSION['msg_type'] = "danger";
         return ($_SESSION[$Error]);
-    }
-    // Check if file already exists
-    if (file_exists($st_photo)) {
-        $_SESSION[$Error] = "Sorry, image already exists.";
-        $_SESSION['msg_type'] = "danger";
-        return ($_SESSION[$Error]);
-    }
-    // Check file size
-    if ($_FILES["st_photo"]["size"] > 500000) {
-        $_SESSION[$Error] = "Sorry, your image is too large.";
-        $_SESSION['msg_type'] = "danger";
-        return ($_SESSION[$Error]);
-    }
-    // Allow certain file formats
-    if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
-        $_SESSION[$Error] = "Sorry, only JPG, JPEG and PNG files are allowed.";
-        $_SESSION['msg_type'] = "danger";
-        return ($_SESSION[$Error]);
+        header('Location: admit-form.php');
     }
 
     //Check if it is a valid username
@@ -140,13 +267,23 @@ function editStudent($fname = NULL, $gender = NULL, $dob = NULL, $blood_group = 
         $_SESSION[$Error] = "Please enter a valid username.";
         $_SESSION['msg_type'] = "danger";
         return ($_SESSION[$Error]);
+        header('Location: admit-form.php');
     }
+
+    //Check if it is a valid username
+    if (!preg_match("/^[A-Z]+[0-9]+$/", $admission_Id)) {
+        $_SESSION[$Error] = "Admission ID must be in capital letter and contain number";
+        $_SESSION['msg_type'] = "danger";
+        return ($_SESSION[$Error]);
+        header('Location: admit-form.php');
+        }
 
     //Check if it is a valid password
     if (!preg_match("/^[a-zA-Z]+[0-9]+$/", $password)) {
         $_SESSION[$Error] = "Password must contain number and word";
         $_SESSION['msg_type'] = "danger";
         return ($_SESSION[$Error]);
+        header('Location: admit-form.php');
     }
 
     //Check if it is a valid school amount
@@ -154,6 +291,7 @@ function editStudent($fname = NULL, $gender = NULL, $dob = NULL, $blood_group = 
         $_SESSION[$Error] = "School fees should contain numbers only";
         $_SESSION['msg_type'] = "danger";
         return ($_SESSION[$Error]);
+        header('Location: admit-form.php');
     }
 
     //Check if it is a valid phone number
@@ -161,26 +299,92 @@ function editStudent($fname = NULL, $gender = NULL, $dob = NULL, $blood_group = 
         $_SESSION[$Error] = "Please enter a valid phone number.";
         $_SESSION['msg_type'] = "danger";
         return ($_SESSION[$Error]);
+        header('Location: admit-form.php');
     }
-    if ($Error == "") {
-        move_uploaded_file($_FILES["st_photo"]["tmp_name"], $st_photo);
-
-        $stmt = $connection->prepare("UPDATE admin_new SET fname = ?, gender = ?, dob = ?, blood_group = ?, religion = ?, parent = ?, occupation = ?, parent_phone = ?, username = ?, password = ?, school = ?, class = ?, school_fees = ?, admission_Id = ?, address = ?, phone = ?, state = ?, st_photo = ? WHERE id = ?");
-        $stmt->bind_param('ssssssssssssssssssi', $fname, $gender, $dob, $blood_group, $religion, $parent, $occupation, $parent_phone, $username, $password, $school, $class, $school_fees, $admission_Id, $address, $phone, $state, $st_photo, $id);
-        $stmt->execute();
-        
-        if ($stmt->affected_rows === 0) {
-
-            $_SESSION[$Error] = "Unable to update student details!";
+        //image edit settings
+        $new_image = $_FILES['st_photo']['name'];
+        $old_image = $_POST['st_photo_old'];
+    
+        if ($new_image != "")
+        {
+            $update_filename = $_FILES['st_photo']['name'];
+        }else
+        {
+            $update_filename = $old_image;
+        }
+    
+        if ($_FILES['st_photo']['name'] != '')
+        {
+            if (file_exists("../images" .$_FILES['st_photo']['name']))
+            {
+                $filename = $_FILES['st_photo']['name'];
+                $_SESSION[$Error] = "Image already exist" .$filename;
+                $_SESSION['msg_type'] = "danger";
+                header('Location: admit-form.php');
+            }
+        }
+        // Check if image file is an actual image or fake image
+        $check = getimagesize($_FILES["st_photo"]["tmp_name"]);
+        if ($check == false) {
+            $_SESSION[$Error] = "File is not an image.";
             $_SESSION['msg_type'] = "danger";
             return ($_SESSION[$Error]);
-        } else {
-    
-            $_SESSION[$Error] = "Student details updated successfully!";
-            $_SESSION['msg_type'] = "success";
-            // header('Location: all-class.php');
+        }
+
+        // Check file size
+        if ($_FILES["st_photo"]["size"] > 1000000) {
+            $_SESSION[$Error] = "Sorry, your image is too large.";
+            $_SESSION['msg_type'] = "danger";
             return ($_SESSION[$Error]);
         }
+
+        // Allow certain file formats
+        $imageFileType = strtolower(pathinfo($st_photo, PATHINFO_EXTENSION));
+        if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
+            $_SESSION[$Error] = "Sorry, only JPG, JPEG and PNG files are allowed.";
+            $_SESSION['msg_type'] = "danger";
+            return ($_SESSION[$Error]);
+        }
+
+    if ($Error == "") {
+        // move_uploaded_file($_FILES["st_photo"]["tmp_name"], $st_photo);
+
+        $stmt = $connection->prepare("UPDATE admin_new SET fname = ?, gender = ?, dob = ?, blood_group = ?, religion = ?, parent = ?, occupation = ?, parent_phone = ?, username = ?, password = ?, school = ?, class = ?, school_fees = ?, admission_Id = ?, address = ?, phone = ?, state = ?, st_photo = ? WHERE id = ?");
+        $stmt->bind_param('ssssssssssssssssssi', $fname, $gender, $dob, $blood_group, $religion, $parent, $occupation, $parent_phone, $username, $password, $school, $class, $school_fees, $admission_Id, $address, $phone, $state, $update_filename, $id);
+        $stmt->execute();
+        
+
+        if ($stmt->affected_rows == 1)
+        {
+            if ($_FILES['st_photo']['name'] != '')
+            {
+                move_uploaded_file($_FILES["st_photo"]["tmp_name"], "../images/" .$_FILES['st_photo']['name']);
+                unlink("../images" .$old_image);
+            }
+            $_SESSION[$Error] = "Student information updated successfully!";
+            $_SESSION['msg_type'] = "success";
+            return ($_SESSION[$Error]);
+            header("Location: all-student.php");
+        }else
+        {
+            $_SESSION[$Error] = "You have not made any changes to student information";
+            $_SESSION['msg_type'] = "danger";
+            return ($_SESSION[$Error]);
+            header("Location: all-student.php");
+        }
+        // if ($stmt->affected_rows === 1) {
+
+        //     $_SESSION[$Error] = "Student details updated successfully!";
+        //     $_SESSION['msg_type'] = "success";
+        //     return ($_SESSION[$Error]);
+        //     header('Location: all-student.php');
+        // }else { 
+        //     $_SESSION[$Error] = "Unable to update student details!";
+        //     $_SESSION['msg_type'] = "danger";
+        //     return ($_SESSION[$Error]);
+        //     header('Location: all-student.php');
+                
+        // }
         $stmt->close();
     }
 }
@@ -198,21 +402,18 @@ function deleteStudent($id){
         $stmt->execute();
 
         if ($stmt->affected_rows === 0) {
-            $_SESSION[$Error] = "Unable to delete student details.";
+            $_SESSION[$Error] = "Unable to delete student information.";
             $_SESSION['msg_type'] = "danger";
-
             return ($_SESSION[$Error]);
-            header('Location: all-class.php');
+            header('Location: all-student.php');
         } else {
-            $_SESSION[$Error] = "Student details deleted successfully!";
+            $_SESSION[$Error] = "Student information deleted successfully!";
             $_SESSION['msg_type'] = "success";
             return ($_SESSION[$Error]);
-
-
             header('Location: all-student.php');
         }
         $stmt->close();
-        header('Location: all-student.php');
+        // header('Location: all-student.php');
     }
 }
 
@@ -578,7 +779,7 @@ function libraryEdit($book_name = NULL, $subject = NULL, $author = NULL, $class 
 }  
 
 //Insert function for Bookshop
-function insertBookshop($book_name = NULL, $subject = NULL, $author = NULL, $class = NULL, $published = NULL, $edition = NULL, $book_id = NUll)
+function insertBookshop($book_name = NULL, $subject = NULL, $author = NULL, $class = NULL, $book_price = NULL, $published = NULL, $edition = NULL, $book_id = NUll)
 {
 
     global $Error;
@@ -604,6 +805,14 @@ function insertBookshop($book_name = NULL, $subject = NULL, $author = NULL, $cla
     //Check if it is a valid author name
     if (!preg_match("/^[A-Z. a-z.]+$/", $author)) {
         $_SESSION[$Error] = "Author's name must not contain number or special characters.";
+        $_SESSION['msg_type'] = "danger";
+        header('Location: add-library.php');
+        return ($_SESSION[$Error]);
+    }
+
+    // //Check if it is a valid book amount number
+    elseif (!preg_match("/^[0-9]+$/", $book_price)) {
+        $_SESSION[$Error] = "Please only numbers are allowed. No special characters or letters.";
         $_SESSION['msg_type'] = "danger";
         header('Location: add-library.php');
         return ($_SESSION[$Error]);
@@ -644,9 +853,9 @@ function insertBookshop($book_name = NULL, $subject = NULL, $author = NULL, $cla
             return ($_SESSION[$Error] = "Book already exist.");
         }
 
-        $stmt = $connection->prepare('INSERT INTO bookshop (book_name, subject, author, class, published, edition, book_id)
-               VALUES(?,?,?,?,?,?,?)');
-        $stmt->bind_param('sssssss', $book_name, $subject, $author, $class, $published, $edition, $book_id);
+        $stmt = $connection->prepare('INSERT INTO bookshop (book_name, subject, author, class, book_price, published, edition, book_id)
+               VALUES(?,?,?,?,?,?,?,?)');
+        $stmt->bind_param('ssssssss', $book_name, $subject, $author, $class, $book_price, $published, $edition, $book_id);
         $stmt->execute();
         $stmt->close();
         $_SESSION[$Error] = "Book added successfully.";
@@ -706,7 +915,7 @@ function deleteBookshop($id)
 }
 
 //update function to Edit bookshop
-function bookshopEdit($book_name = NULL, $subject = NULL, $author = NULL, $class = NULL, $published = NULL, $edition = NULL, $book_id = NUll, $id)
+function bookshopEdit($book_name = NULL, $subject = NULL, $author = NULL, $class = NULL, $book_price = NULL, $published = NULL, $edition = NULL, $book_id = NUll, $id)
 {
     global $connection;
     $Error = "";
@@ -735,6 +944,14 @@ function bookshopEdit($book_name = NULL, $subject = NULL, $author = NULL, $class
         return ($_SESSION[$Error]);
     }
 
+    // //Check if it is a valid book amount number
+    elseif (!preg_match("/^[0-9]+$/", $book_price)) {
+        $_SESSION[$Error] = "Please only numbers are allowed. No special characters or letters.";
+        $_SESSION['msg_type'] = "danger";
+        header('Location: add-library.php');
+        return ($_SESSION[$Error]);
+    }
+
     // //Check if it is a valid published year
     elseif (!preg_match("/^[0-9]+$/", $published)) {
         $_SESSION[$Error] = "Please only number is accepted.";
@@ -759,8 +976,8 @@ function bookshopEdit($book_name = NULL, $subject = NULL, $author = NULL, $class
     }
 
 
-    $stmt = $connection->prepare("UPDATE bookshop SET book_name = ?, subject = ?, author = ?, class = ?, published = ?, edition = ?, book_id = ? WHERE id = ?");
-    $stmt->bind_param('ssssssss', $book_name, $subject, $author, $class, $published, $edition, $book_id, $id);
+    $stmt = $connection->prepare("UPDATE bookshop SET book_name = ?, subject = ?, author = ?, class = ?, book_price = ?, published = ?, edition = ?, book_id = ? WHERE id = ?");
+    $stmt->bind_param('ssssssssi', $book_name, $subject, $author, $class, $book_price, $published, $edition, $book_id, $id);
     $stmt->execute();
 
     if ($stmt->affected_rows === 0) {
@@ -971,7 +1188,10 @@ function adminLogout(){
 }
 
 //insert function for staff
-function insertStaff($fname = NULL, $gender = NULL, $father_name = NULL, $mother_name = NULL, $dob = NULL, $marital_status = NULL, $religion = NULL, $country = NULL, $staff_state = NULL, $section = NULL, $staff_type = NULL, $staff_role = NULL, $qualification = NULL, $graduated_from = NULL, $course_study = NULL, $graduation_year = NULL, $certificate = NULL, $department = NULL, $username = NULL, $password = NULL, $address = NULL, $staff_phone = NULL, $referee = NULL, $ref_address  = NULL, $ref_phone = NULL, $staff_photo = NULL){
+function insertStaff($fname = NULL, $gender = NULL, $father_name = NULL, $mother_name = NULL, $dob = NULL, $marital_status = NULL, 
+$religion = NULL, $country = NULL, $staff_state = NULL, $section = NULL, $staff_type = NULL, $staff_role = NULL, $qualification = NULL, 
+$graduated_from = NULL, $course_study = NULL, $graduation_year = NULL, $certificate = NULL, $department = NULL, $username = NULL, 
+$password = NULL, $address = NULL, $staff_phone = NULL, $referee = NULL, $ref_address  = NULL, $ref_phone = NULL, $staff_photo = NULL){
     global $Error;
     global $connection;
     $Error = "";
@@ -995,7 +1215,7 @@ function insertStaff($fname = NULL, $gender = NULL, $father_name = NULL, $mother
             return ($_SESSION[$Error]);
         }
         // Check file size
-        if ($_FILES["certificate"]["size"] > 500000) {
+        if ($_FILES["certificate"]["size"] > 1500000) {
             $_SESSION[$Error] = "Sorry, your certificate is too large.";
             $_SESSION['msg_type'] = "danger";
             return ($_SESSION[$Error]);
@@ -1026,7 +1246,7 @@ function insertStaff($fname = NULL, $gender = NULL, $father_name = NULL, $mother
         return ($_SESSION[$Error]);
     }
     // Check file size
-    if ($_FILES["staff_photo"]["size"] > 500000) {
+    if ($_FILES["staff_photo"]["size"] > 1500000) {
         $_SESSION[$Error] = "Sorry, your staff image is too large.";
         $_SESSION['msg_type'] = "danger";
         return ($_SESSION[$Error]);
@@ -1154,7 +1374,10 @@ function selectStaff(){
 }
 
 //insert function for staff
-function editStaff($fname = NULL, $gender = NULL, $father_name = NULL, $mother_name = NULL, $dob = NULL, $marital_status = NULL, $religion = NULL, $country = NULL, $staff_state = NULL, $section = NULL, $staff_type = NULL, $staff_role = NULL, $qualification = NULL, $graduated_from = NULL, $course_study = NULL, $graduation_year = NULL, $certificate = NULL, $department = NULL, $username = NULL, $password = NULL, $address = NULL, $staff_phone = NULL, $referee = NULL, $ref_address  = NULL, $ref_phone = NULL, $staff_photo = NULL, $id){
+function editStaff($fname = NULL, $gender = NULL, $father_name = NULL, $mother_name = NULL, $dob = NULL, $marital_status = NULL, 
+$religion = NULL, $country = NULL, $staff_state = NULL, $section = NULL, $staff_type = NULL, $staff_role = NULL, $qualification = NULL, 
+$graduated_from = NULL, $course_study = NULL, $graduation_year = NULL, $certificate = NULL, $department = NULL, $username = NULL, 
+$password = NULL, $address = NULL, $staff_phone = NULL, $referee = NULL, $ref_address  = NULL, $ref_phone = NULL, $staff_photo = NULL, $id){
     global $Error;
     global $connection;
     $Error = "";
@@ -1735,7 +1958,7 @@ function deleteFees($id){
     }
 }
 
-//Insert school fees function
+//assign subject function
 function assignSubject($school = NULL, $class = NULL, $subject = NULL, $teacher = NULL)
 {
     $Error = "";
@@ -1879,7 +2102,7 @@ function assignStudent($studentName = NULL, $school = NULL, $class = NULL, $teac
     $result = $stmt1->get_result();
     $row = $result->fetch_assoc();
 
-    if ($row['studentName'] > 0) {
+    if ($row['studentName'] === 1) {
         $_SESSION[$Error] = "This student has already been assigned to a class";
         $_SESSION['msg_type'] = "danger";
         return ($_SESSION[$Error]);
@@ -1892,14 +2115,14 @@ function assignStudent($studentName = NULL, $school = NULL, $class = NULL, $teac
             VALUES(?,?,?,?)');
             $stmt->bind_param('ssss', $studentName, $school, $class, $teacher);
             $stmt->execute();
-            $stmt->close();
+            
 
             $_SESSION[$Error] = "Student assigned to a class successfully!";
             $_SESSION['msg_type'] = "success";
             return ($_SESSION[$Error]);
 
             header('Location: all-assign-student.php');
-               
+            $stmt->close();
     }
 }
 
@@ -1985,3 +2208,158 @@ function deleteAssignClass($id){
         header('Location: all_assign-student.php');
     }
 }
+
+//Insert function for Upload payment
+function insertPayment($st_name = NULL, $st_class = NULL, $amount_paid = NULL, $payment_mode = NULL, $paid_by = NULL, $ref_number = NULL, $status = NULL, $email = NUll, $phone_number = NULL, $payment_date = NULL)
+{
+
+    global $Error;
+    global $connection;
+    $Error = "";
+
+    //Check if it is a valid book name
+    if (!preg_match("/^[A-Z a-z]+$/", $st_name)) {
+        $_SESSION[$Error] = "Student name must not contain number or special characters.";
+        $_SESSION['msg_type'] = "danger";
+        header('Location: upload-fees.php');
+        return ($_SESSION[$Error]);
+    }
+
+    //Check if it is a valid subject name
+    if (!preg_match("/^[A-Z a-z]+$/", $paid_by)) {
+        $_SESSION[$Error] = "Payee name must not contain number or special characters.";
+        $_SESSION['msg_type'] = "danger";
+        header('Location: upload-fees.php');
+        return ($_SESSION[$Error]);
+    }
+
+    // //Check if it is a valid book amount number
+    elseif (!preg_match("/^[0-9]+$/", $amount_paid)) {
+        $_SESSION[$Error] = "Please only numbers are allowed. No special characters or letters.";
+        $_SESSION['msg_type'] = "danger";
+        header('Location: upload-fees.php');
+        return ($_SESSION[$Error]);
+    }
+
+
+    if ($Error == "") {
+        $stmt1 = $connection->prepare('SELECT * FROM uploaded_payment WHERE st_name = ?');
+        $stmt1->bind_param('s', $st_name);
+        $stmt1->execute();
+        $result = $stmt1->get_result();
+        if ($result->num_rows != 0) {
+
+            header('Location: upload-fees.php');
+            return ($_SESSION[$Error] = "Payment record already exist.");
+        }
+
+        $stmt = $connection->prepare('INSERT INTO uploaded_payment (st_name, st_class, amount_paid, payment_mode, paid_by, ref_number, status, email, phone_number, payment_date)
+               VALUES(?,?,?,?,?,?,?,?,?,?)');
+        $stmt->bind_param('ssssssssss', $st_name, $st_class, $amount_paid, $payment_mode, $paid_by, $ref_number, $status, $email, $phone_number, $payment_date);
+        $stmt->execute();
+        $stmt->close();
+        $_SESSION[$Error] = "Payment record added successfully!";
+        $_SESSION['msg_type'] = "success";
+        return ($_SESSION[$Error]);
+    }
+}
+
+//Select function to display uploaded payment
+function selectUploadedPayment()
+{
+    global $connection;
+    $data = array();
+
+    $stmt = $connection->prepare('SELECT * FROM uploaded_payment');
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows === 0) echo "No rows found";
+    while ($row = $result->fetch_assoc()) {
+        $data[] = $row;
+    }
+    $stmt->close();
+    return $data;
+}
+
+//Delete function for uploaded payment
+function deleteUploadedPayment($id)
+{
+    global $Error;
+    global $connection;
+
+    if (isset($_GET['delete'])) {
+        $id = $_GET['delete'];
+
+        $stmt = $connection->prepare('DELETE FROM uploaded_payment WHERE id = ?');
+        $stmt->bind_param('i', $id);
+        $stmt->execute();
+
+        if ($stmt->affected_rows === 0) {
+            $_SESSION[$Error] = "Unable to delete payment record.";
+            $_SESSION['msg_type'] = "danger";
+
+            return ($_SESSION[$Error]);
+            header('Location: all-upload-fees.php');
+        } else {
+            $_SESSION[$Error] = "Payment record deleted successfully!";
+            $_SESSION['msg_type'] = "success";
+            return ($_SESSION[$Error]);
+
+
+            header('Location: all-upload-fees.php');
+        }
+        $stmt->close();
+        header('Location: library.php');
+    }
+}
+
+//update function to Edit Uloaded payment
+function uploadedPaymentEdit($st_name = NULL, $st_class = NULL, $amount_paid = NULL, $payment_mode = NULL, $paid_by = NULL, $ref_number = NULL, $status = NULL, $email = NUll, $phone_number = NULL, $payment_date = NULL, $id)
+{
+    global $connection;
+    $Error = "";
+
+    //Check if it is a valid book name
+    if (!preg_match("/^[A-Z a-z]+$/", $st_name)) {
+        $_SESSION[$Error] = "Student name must not contain number or special characters.";
+        $_SESSION['msg_type'] = "danger";
+        header('Location: upload-fees.php');
+        return ($_SESSION[$Error]);
+    }
+
+    //Check if it is a valid subject name
+    if (!preg_match("/^[A-Z a-z]+$/", $paid_by)) {
+        $_SESSION[$Error] = "Payee name must not contain number or special characters.";
+        $_SESSION['msg_type'] = "danger";
+        header('Location: upload-fees.php');
+        return ($_SESSION[$Error]);
+    }
+
+    // //Check if it is a valid book amount number
+    elseif (!preg_match("/^[0-9]+$/", $amount_paid)) {
+        $_SESSION[$Error] = "Please only numbers are allowed. No special characters or letters.";
+        $_SESSION['msg_type'] = "danger";
+        header('Location: upload-fees.php');
+        return ($_SESSION[$Error]);
+    }
+
+
+    $stmt = $connection->prepare("UPDATE uploaded_payment SET st_name = ?, st_class = ?, amount_paid = ?, payment_mode = ?, paid_by = ?, ref_number = ?, status = ?, email = ?, phone_number = ?, payment_date = ? WHERE id = ?");
+    $stmt->bind_param('ssssssssssi', $st_name, $st_class, $amount_paid, $payment_mode, $paid_by, $ref_number, $status, $email, $phone_number, $payment_date, $id);
+    $stmt->execute();
+
+    if ($stmt->affected_rows === 0) {
+
+        $_SESSION[$Error] = "Unable to update payment record!";
+        $_SESSION['msg_type'] = "danger";
+        return ($_SESSION[$Error]);
+    } else {
+
+        $_SESSION[$Error] = "Payment record updated successfully!";
+        $_SESSION['msg_type'] = "success";
+        header('Location: all-upload-fees.php');
+        return ($_SESSION[$Error]);
+    }
+    $stmt->close();
+}  
